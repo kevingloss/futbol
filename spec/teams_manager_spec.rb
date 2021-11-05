@@ -19,4 +19,10 @@ describe TeamsManager do
       expect(@tmngr.teams.count).to eq(32)
     end
   end
+
+  describe '#count_of_teams' do
+    it 'returns the number of teams' do
+      expect(@tmngr.count_of_teams).to eq(32)
+    end
+  end
 end
