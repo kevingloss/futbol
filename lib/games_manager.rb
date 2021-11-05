@@ -24,9 +24,11 @@ class GamesManager
 
   def count_of_games_by_season
     games_by_season = self.games_by_season
-    count_of_games_by_season = games_by_season.transform_values do |season, games|
-      games.length
+    count_of_games_by_season = Hash.new(0)
+    games_by_season.each do |season, games|
+      count_of_games_by_season[season] = games.length
     end
+    count_of_games_by_season
   end
 
   # Average number of goals scored in a game across all seasons including
