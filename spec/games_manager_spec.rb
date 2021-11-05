@@ -20,14 +20,27 @@ describe GamesManager do
     end
   end
 
-  describe '#highest_total_score' do
-    it 'will find the highest sum of the team scores from all the games' do
-      expect(@gmngr.highest_total_score).to eq(11)
+  describe ' #games_by_season' do
+    it 'returns a hash' do
+      expect(@gmngr.games_by_season).to be_a(Hash)
+    end
+    it 'returns a values that are arrays' do
+      expect(@gmngr.games_by_season.values.all?{|val| val.class == Array}).to eq(true)
+    end
+    it 'returns a hash with an array of games' do
+      expect(@gmngr.games_by_season.values.flatten.all?{|game| game.class == Game}).to eq(true)
     end
   end
-  describe '#lowest_total_score' do
-    it 'will find the lowest sum of the team scores from all the games' do
-      expect(@gmngr.lowest_total_score).to eq(0)
+
+  describe ' #count_of_games_by_season' do
+    it 'returns a hash with correct count of games per season' do
+      expect(@gmngr.count_of_games_by_season).to be_a(Hash)
+      #expect(@gmngr.count_of_games_by_season).to eq({ '20122013' => 6, '20142015' => 15 })
+    end
+  end
+  describe ' #average_goals_per_game' do
+    it 'returns the average # of goals per game' do
+      expect(@gmngr.average_goals_per_game).to eq(4.22)
     end
   end
 end
