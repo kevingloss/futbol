@@ -33,4 +33,10 @@ describe GameTeam do
       expect(@game_team.takeaways).to eq(7)
     end
   end
+
+  describe '#home?' do
+    it 'returns true if team is home team and false otherwise' do
+      expect(@game_team.home?).to be(false)
+    end
+  end
 end
