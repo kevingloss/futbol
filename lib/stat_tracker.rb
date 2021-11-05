@@ -104,6 +104,10 @@ class StatTracker
     @teams_mngr.find_team_name(@gt_mngr.highest_scoring_visitor)
   end
 
+  def lowest_scoring_visitor
+    @teams_mngr.find_team_name(@gt_mngr.lowest_scoring_visitor)
+  end
+
   def visiting_team_games(team)
     @game_teams.find_all do |game|
       game.team_id == team.team_id && game.h_o_a == 'away'
@@ -136,11 +140,7 @@ class StatTracker
     total_goals(home_games) / home_games.count.to_f
   end
 
-  def lowest_scoring_visitor
-    @teams.min_by do |team|
-      visiting_average_goals(team)
-    end.team_name
-  end
+
 
   def lowest_scoring_home_team
     @teams.min_by do |team|
