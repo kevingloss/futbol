@@ -427,35 +427,26 @@ class StatTracker
     return teams
   end
 
-  # Name of the Team with the most tackles in the season	- String
   def most_tackles(season)
-    game_teams_in_season = game_teams_in_season(season)
-    max_tackles_game_team = game_teams_in_season.max_by{ |game_team|game_team.tackles}
-    max_tackles = max_tackles_game_team.tackles
-    max_tackles_game_teams = game_teams_in_season.select{|game_team| game_team.tackles == max_tackles}
-    teams = teams_from_game_teams(max_tackles_game_teams)
-    team_names = teams.map { |team| team.team_name }
-    # return sigle name if only one item.
-    if team_names.length == 1
-      team_names[0]
-    else
-      team_names
-    end
+    most_team_id = total_tackles_by_id(season).max_by { |id , games_teams| games_teams }[0]
+    @teams.find_all { |team| team.team_id == most_team_id }[0].team_name
   end
 
-  # Name of the Team with the fewest tackles in the season	- String
+  def game_teams_by_id(season)
+    game_teams_by_coach = game_teams_in_season(season).group_by { |game_teams| game_teams.team_id}
+  end
+
+  def total_tackles_by_id(season)
+    sum_tackles = Hash.new
+    game_teams_by_id(season).each do |team_id , games_teams|
+      total_tackles = games_teams.map { |game_team| game_team.tackles }.sum
+      sum_tackles[team_id] = total_tackles
+      end
+    sum_tackles
+  end
+
   def fewest_tackles(season)
-    game_teams_in_season = game_teams_in_season(season)
-    min_tackles_game_team = game_teams_in_season.min_by{ |game_team|game_team.tackles}
-    min_tackles = min_tackles_game_team.tackles
-    min_tackles_game_teams = game_teams_in_season.select{|game_team| game_team.tackles == min_tackles}
-    teams = teams_from_game_teams(min_tackles_game_teams)
-    team_names = teams.map { |team| team.team_name }
-    # return sigle name if only one item.
-    if team_names.length == 1
-      team_names[0]
-    else
-      team_names
-    end
+    fewest_team_id = total_tackles_by_id(season).min_by { |id , games_teams| games_teams }[0]
+    @teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
   end
 end
