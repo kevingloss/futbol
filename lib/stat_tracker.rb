@@ -53,19 +53,13 @@ class StatTracker
 
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
   def count_of_games_by_season
-    count_of_games_by_season = Hash.new(0)
-    games_by_season = @games.group_by { |game| game.season }
-    games_by_season.keys.each do |season|
-      count_of_games_by_season[season] = games_by_season[season].length
-    end
-    count_of_games_by_season
+    count_of_games_by_season = @games.count_of_games_by_season
   end
 
   # Average number of goals scored in a game across all seasons including
   # both home and away goals (rounded to the nearest 100th) - float
   def average_goals_per_game
-    total_goals = @games.map { |game| game.home_goals + game.away_goals }
-    avg_goals_per_game = (total_goals.sum.to_f / total_goals.length.to_f).round(2)
+    avg_goals_per_game = @games.average_goals_per_game
   end
 
   # Average number of goals scored in a game organized in a hash
