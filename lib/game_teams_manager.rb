@@ -16,13 +16,11 @@ class GameTeamsManager
   end
 
   def best_offense
-    games = games_by_team(@game_teams)
-    team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
+    team_average_goals(self.games_by_team).max_by {|team_id, avg_goals| avg_goals.max}.first
   end
 
   def worst_offense
-    games = games_by_team(@game_teams)
-    team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
+    team_average_goals(self.games_by_team).min_by {|team_id, avg_goals| avg_goals.min}.first
   end
 
   def team_average_goals(team_games)
@@ -31,7 +29,7 @@ class GameTeamsManager
     end
   end
 
-  def games_by_team(team_games)
+  def games_by_team(team_games = @game_teams)
     team_games.group_by {|game_team| game_team.team_id}
   end
 
@@ -50,6 +48,11 @@ class GameTeamsManager
   def highest_scoring_visitor
     games = games_by_team(self.away_games)
     team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
+  end
+
+  def lowest_scoring_visitor
+    games = games_by_team(self.away_games)
+    team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
   end
 
   def away_games
