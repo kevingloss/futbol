@@ -26,6 +26,12 @@ describe GameTeamsManager do
     end
   end
 
+  describe '#worst_offense' do
+    it 'returns the team id for the lowest average goals per game' do
+      expect(@gtmngr.worst_offense).to eq("7")
+    end
+  end
+
   describe '#team_average_goals' do
     it 'creates a hash sorted by team id and average goals per game' do
       expect(@gtmngr.team_average_goals).to be_a(Hash)
