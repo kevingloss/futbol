@@ -16,21 +16,23 @@ class GameTeamsManager
   end
 
   def best_offense
-    team_average_goals.max_by {|team_id, avg_goals| avg_goals.max}.first
+    games = games_by_team(@game_teams)
+    team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
   end
 
   def worst_offense
-    team_average_goals.min_by {|team_id, avg_goals| avg_goals.min}.first
+    games = games_by_team(@game_teams)
+    team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
   end
 
-  def team_average_goals
-    all_games_by_team.transform_values do |game_teams|
+  def team_average_goals(team_games)
+    team_games.transform_values do |game_teams|
       {average_goals: average_goals(game_teams).round(4)}
     end
   end
 
-  def all_games_by_team
-    @game_teams.group_by {|game_team| game_team.team_id}
+  def games_by_team(team_games)
+    team_games.group_by {|game_team| game_team.team_id}
   end
 
   def total_games(game_teams)
@@ -46,12 +48,15 @@ class GameTeamsManager
   end
 
   def highest_scoring_visitor
-    # split this out into an away games list & away games average goals
-    all_games_by_team.select do |team_id, game_teams|
-      game_teams.map do |game_team|
-        game_team.home?
-      end
-    end
-    #  need to sort through all_games_by_team for the away games then do average goals
+    games = games_by_team(self.away_games)
+    team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
+  end
+
+  def away_games
+    @game_teams.select {|game_team| game_team.home? == false}
+  end
+
+  def home_games
+    @game_teams.select {|game_team| game_team.home?}
   end
 end
