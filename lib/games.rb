@@ -1,5 +1,4 @@
-require 'csv'
-class Games
+class Game
   attr_reader :game_id, :season, :type, :date_time, :away_team_id, :home_team_id, :away_goals, :home_goals, :venue, :venue_link
 
   def initialize(data)
@@ -14,4 +13,9 @@ class Games
     @venue = data['venue']
     @venue_link = data['venue_link']
   end
+
+  def total_goals
+    @home_goals + @away_goals
+  end
+
 end

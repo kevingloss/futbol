@@ -1,52 +1,30 @@
-require 'csv'
-require_relative './teams'
-require_relative './game_teams'
-require_relative './games'
+# require 'csv'
+require_relative './teams_manager'
+require_relative './game_teams_manager'
+require_relative './games_manager'
 
 class StatTracker
-  attr_accessor :games, :teams, :game_teams
+  attr_accessor :games_mngr, :teams_mngr, :gt_mngr
 
   def initialize(locations)
-    @games = create_games(locations[:games])
-    @teams = create_teams(locations[:teams])
-    @game_teams = create_game_teams(locations[:game_teams])
+    @games_mngr = GamesManager.new(locations[:games])
+    @teams_mngr = TeamsManager.new(locations[:teams])
+    @gt_mngr = GameTeamsManager.new(locations[:game_teams])
   end
 
   def self.from_csv(locations)
     stat_tracker = StatTracker.new(locations)
   end
 
-  def create_teams(teams_data)
-    rows = CSV.read(teams_data, headers: true)
-    rows.map do |row|
-      Teams.new(row)
-    end
-  end
-
-  def create_games(games_data)
-    rows = CSV.read(games_data, headers: true)
-    rows.map do |row|
-      Games.new(row)
-    end
-  end
-
-  def create_game_teams(game_teams_data)
-    rows = CSV.read(game_teams_data, headers: true)
-    rows.map do |row|
-      GameTeams.new(row)
-    end
-  end
-
   # Game Statistics Methods
   def highest_total_score
-    game_score = @games.map { |game| game.away_goals + game.home_goals }
-    game_score.max
+    @games_mngr.highest_total_score
   end
 
   def lowest_total_score
-    game_score = @games.map { |game| game.away_goals + game.home_goals }
-    game_score.min
+    @games_mngr.lowest_total_score
   end
+
 
   def percentage_visitor_wins
     visitor_wins = []
@@ -74,19 +52,13 @@ class StatTracker
 
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
   def count_of_games_by_season
-    count_of_games_by_season = Hash.new(0)
-    games_by_season = @games.group_by { |game| game.season }
-    games_by_season.keys.each do |season|
-      count_of_games_by_season[season] = games_by_season[season].length
-    end
-    count_of_games_by_season
+    count_of_games_by_season = @games.count_of_games_by_season
   end
 
   # Average number of goals scored in a game across all seasons including
   # both home and away goals (rounded to the nearest 100th) - float
   def average_goals_per_game
-    total_goals = @games.map { |game| game.home_goals + game.away_goals }
-    avg_goals_per_game = (total_goals.sum.to_f / total_goals.length.to_f).round(2)
+    avg_goals_per_game = @games.average_goals_per_game
   end
 
   # Average number of goals scored in a game organized in a hash

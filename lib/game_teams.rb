@@ -1,6 +1,4 @@
-require 'csv'
-
-class GameTeams
+class GameTeam
   attr_reader :game_id, :team_id, :h_o_a, :result, :settled_in, :head_coach
   attr_reader :goals, :shots, :tackles, :pim, :power_play_opportunities, :power_play_goals
   attr_reader :face_off_win_percentage, :giveaways, :takeaways

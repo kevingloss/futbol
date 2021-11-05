@@ -4,16 +4,16 @@ SimpleCov.start
 require './lib/game_teams'
 require 'csv'
 
-describe GameTeams do
+describe GameTeam do
   before(:each) do
     @rows = CSV.read('./data/game_teams.csv', headers: true)
     @row = @rows[0]
     # powerPlayGoals,faceOffWinPercentage,giveaways,takeaways
-    @game_team = GameTeams.new(@row)
+    @game_team = GameTeam.new(@row)
   end
   describe 'initialize' do
     it 'exists' do
-      expect(@game_team).to be_a(GameTeams)
+      expect(@game_team).to be_a(GameTeam)
     end
     it 'has attributes' do
       expect(@game_team.game_id).to eq('2012030221')
