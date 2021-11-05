@@ -5,7 +5,7 @@ require './lib/teams_manager'
 require 'csv'
 
 describe TeamsManager do
-  before(:each) do
+  before(:all) do
     @tmngr = TeamsManager.new('./data/teams.csv')
   end
 
