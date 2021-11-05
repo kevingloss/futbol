@@ -19,9 +19,9 @@ RSpec.describe StatTracker do
   # end
 
   before(:all) do
-    game_path = './data/games_test.csv'
+    game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams_test.csv'
+    game_teams_path = './data/game_teams.csv'
 
     locations = {
       games: game_path,
@@ -114,13 +114,8 @@ RSpec.describe StatTracker do
   end
 
   describe '#best_offense' do
-    it 'uses the #average_goals method' do
-      team = @stat_tracker.teams[5]
-      expect(@stat_tracker.average_goals(team)).to eq(2)
-    end
-
     it 'returns the team name with the highest average goals per game across seasons' do
-      expect(@stat_tracker.best_offense).to eq('FC Dallas')
+      expect(@stat_tracker.best_offense).to eq('Reign FC')
     end
   end
 
