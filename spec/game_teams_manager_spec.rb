@@ -64,5 +64,10 @@ describe GameTeamsManager do
     end
   end
 
+  describe '#highest_scoring_visitor' do
+    xit 'returns the team with the highest average goals as a visitor' do
+      expect(@gtmngr.highest_scoring_visitor).to eq("6")
+    end
+  end
 
 end
