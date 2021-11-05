@@ -91,7 +91,7 @@ class StatTracker
 
   #would only call game_teams_mng then team_mngr for team name from id #
   def best_offense
-    # @gt_mngr.best_offense returns a team id, just need to run this and find_team
+    @teams_mngr.find_team_name(@gt_mngr.best_offense)
   end
 
   def worst_offense
@@ -100,25 +100,25 @@ class StatTracker
     end.team_name
   end
 
-  # average goals across all games
-  def average_goals(team)
-    all_games = team_games(team)
-    return 0 if all_games.empty?
-
-    total_goals(all_games) / all_games.count.to_f
-  end
-
-  # finds all games a team plays in, and returns that array
-  def team_games(team)
-    @game_teams.find_all do |game|
-      game.team_id == team.team_id
-    end
-  end
-
-  # sums the goals for all games of a team
-  def total_goals(all_games)
-    all_games.sum { |game| game.goals }
-  end
+  # # average goals across all games
+  # def average_goals(team)
+  #   all_games = team_games(team)
+  #   return 0 if all_games.empty?
+  #
+  #   total_goals(all_games) / all_games.count.to_f
+  # end
+  #
+  # # finds all games a team plays in, and returns that array
+  # def team_games(team)
+  #   @game_teams.find_all do |game|
+  #     game.team_id == team.team_id
+  #   end
+  # end
+  #
+  # # sums the goals for all games of a team
+  # def total_goals(all_games)
+  #   all_games.sum { |game| game.goals }
+  # end
 
   #Lines 153 to 200 use these methods to find teh highest/lowest scoring teams
   #based on being the home or away team
