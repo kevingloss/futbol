@@ -22,6 +22,6 @@ class GameTeam
   end
 
   def home?
-    @h_o_a == 'HOME'
+    @h_o_a == 'home'
   end
 end
