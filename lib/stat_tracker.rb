@@ -78,7 +78,7 @@ class StatTracker
 
   # League Statistics
   def count_of_teams
-    @teams.count
+    # This one could probably just live here
   end
 
   # Methods between lines 123 & 150 are used with best_offense/worst_offense
