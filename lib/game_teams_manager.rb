@@ -44,4 +44,14 @@ class GameTeamsManager
   def average_goals(game_teams)
     total_goals(game_teams).to_f/total_games(game_teams)
   end
+
+  def highest_scoring_visitor
+    # split this out into an away games list & away games average goals
+    all_games_by_team.select do |team_id, game_teams|
+      game_teams.map do |game_team|
+        game_team.home?
+      end
+    end
+    #  need to sort through all_games_by_team for the away games then do average goals
+  end
 end
