@@ -19,13 +19,16 @@ class GameTeamsManager
     team_average_goals.max_by {|team_id, avg_goals| avg_goals.max}.first
   end
 
+  def worst_offense
+    team_average_goals.min_by {|team_id, avg_goals| avg_goals.min}.first
+  end
+
   def team_average_goals
     all_games_by_team.transform_values do |game_teams|
       {average_goals: average_goals(game_teams).round(4)}
     end
   end
 
-  #best_offense
   def all_games_by_team
     @game_teams.group_by {|game_team| game_team.team_id}
   end

@@ -78,7 +78,7 @@ class StatTracker
 
   # League Statistics
   def count_of_teams
-    # This one could probably just live here
+    @teams_mngr.count_of_teams
   end
 
   # Methods between lines 123 & 150 are used with best_offense/worst_offense
@@ -95,9 +95,7 @@ class StatTracker
   end
 
   def worst_offense
-    @teams.min_by do |team|
-      average_goals(team)
-    end.team_name
+    @teams_mngr.find_team_name(@gt_mngr.worst_offense)
   end
 
   # # average goals across all games
