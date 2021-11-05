@@ -15,4 +15,14 @@ class GamesManager
       Game.new(row)
     end
   end
+
+  def highest_total_score
+    game_scores = @games.map { |game| game.total_goals }
+    game_scores.max
+  end
+
+  def lowest_total_score
+    game_scores = @games.map { |game| game.total_goals }
+    game_scores.min
+  end
 end

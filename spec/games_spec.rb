@@ -31,4 +31,11 @@ RSpec.describe Game do
       expect(@game1.venue_link).to eq('/api/v1/venues/null')
     end
   end
+
+  describe ' #total_goals' do
+    it 'returns total of home and away goals' do
+      expect(@game1.total_goals).to eq(5)
+    end
+
+  end
 end

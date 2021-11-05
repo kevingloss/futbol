@@ -18,14 +18,13 @@ class StatTracker
 
   # Game Statistics Methods
   def highest_total_score
-    game_score = @games.map { |game| game.away_goals + game.home_goals }
-    game_score.max
+    @games_mngr.highest_total_score
   end
 
   def lowest_total_score
-    game_score = @games.map { |game| game.away_goals + game.home_goals }
-    game_score.min
+    @games_mngr.lowest_total_score
   end
+
 
   def percentage_visitor_wins
     visitor_wins = []
