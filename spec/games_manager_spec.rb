@@ -24,6 +24,9 @@ describe GamesManager do
     it 'returns a hash' do
       expect(@gmngr.games_by_season).to be_a(Hash)
     end
+    it 'returns a values that are array' do
+      expect(@gmngr.games_by_season.values.all?{|val| val.class == Array}).to eq(true)
+    end
     it 'returns a hash with an array of games' do
       expect(@gmngr.games_by_season.values.flatten.all?{|game| game.class == Game}).to eq(true)
     end
@@ -37,7 +40,7 @@ describe GamesManager do
   end
   describe ' #average_goals_per_game' do
     it 'returns the average # of goals per game' do
-      expect(@gmngr.average_goals_per_game).to eq(3.86)
+      expect(@gmngr.average_goals_per_game).to eq(4.22)
     end
   end
 end
