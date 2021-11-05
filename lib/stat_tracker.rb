@@ -83,10 +83,15 @@ class StatTracker
 
   # Methods between lines 123 & 150 are used with best_offense/worst_offense
   # calculating goals across all seasons for a team
+# best offense will need:
+  # all games played by a team
+  # average goals scored per game
+    #total goals scored per game / total games played
+  #could use a hash and do team_id => game_teams array
+
+  #would only call game_teams_mng then team_mngr for team name from id #
   def best_offense
-    @teams.max_by do |team|
-      average_goals(team)
-    end.team_name
+    # @gt_mngr.best_offense returns a team id, just need to run this and find_team
   end
 
   def worst_offense
