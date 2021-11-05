@@ -98,7 +98,7 @@ RSpec.describe StatTracker do
   # League Stat
   describe '#count_of_teams' do
     it 'counts the total number of teams' do
-      expect(@stat_tracker.count_of_teams).to eq(@stat_tracker.teams.count)
+      expect(@stat_tracker.count_of_teams).to eq(@stat_tracker.teams_mngr.teams.count)
     end
   end
 
@@ -120,6 +120,12 @@ RSpec.describe StatTracker do
     end
   end
 
+    describe '#lowest_scoring_visitor' do
+      it 'returns the lowest average scoring visitor team name' do
+        expect(@stat_tracker.lowest_scoring_visitor).to eq('San Jose Earthquakes')
+      end
+    end
+
   describe '#highest_scoring_home_team' do
     it 'finds all the visiting games for a team' do
       team = @stat_tracker.teams[4]
@@ -128,12 +134,6 @@ RSpec.describe StatTracker do
 
     it 'returns the highest average scoring home team name' do
       expect(@stat_tracker.highest_scoring_home_team).to eq('FC Dallas')
-    end
-  end
-
-  describe '#lowest_scoring_visitor' do
-    it 'returns the lowest average scoring visitor team name' do
-      expect(@stat_tracker.lowest_scoring_visitor).to eq('Atlanta United')
     end
   end
 
