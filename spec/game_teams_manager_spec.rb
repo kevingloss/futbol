@@ -72,6 +72,12 @@ describe GameTeamsManager do
     end
   end
 
+  describe '#lowest_scoring_visitor' do
+    it 'returns the team with the lowest average goals as a visitor' do
+      expect(@gtmngr.lowest_scoring_visitor).to eq("27")
+    end
+  end
+
   describe '#away_games' do
     it 'finds all of the away games' do
       expect(@gtmngr.away_games.count).to eq(7441)
