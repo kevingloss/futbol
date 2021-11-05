@@ -5,7 +5,7 @@ require './lib/game_teams_manager'
 require 'csv'
 
 describe GameTeamsManager do
-  before(:each) do
+  before(:all) do
     @gtmngr = GameTeamsManager.new('./data/game_teams.csv')
   end
 
@@ -34,13 +34,15 @@ describe GameTeamsManager do
 
   describe '#team_average_goals' do
     it 'creates a hash sorted by team id and average goals per game' do
-      expect(@gtmngr.team_average_goals).to be_a(Hash)
+      argument = @gtmngr.games_by_team([@gtmngr.game_teams[0], @gtmngr.game_teams[1]])
+      expect(@gtmngr.team_average_goals(argument)).to be_a(Hash)
     end
   end
 
-  describe '#all_games_by_team' do
+  describe '#games_by_team' do
     it 'creates a hash sorted by team id and giving all game_team objects' do
-      expect(@gtmngr.all_games_by_team.class).to be(Hash)
+      argument = [@gtmngr.game_teams[0], @gtmngr.game_teams[1]]
+      expect(@gtmngr.games_by_team(argument).class).to be(Hash)
     end
   end
 
@@ -65,9 +67,20 @@ describe GameTeamsManager do
   end
 
   describe '#highest_scoring_visitor' do
-    xit 'returns the team with the highest average goals as a visitor' do
+    it 'returns the team with the highest average goals as a visitor' do
       expect(@gtmngr.highest_scoring_visitor).to eq("6")
     end
   end
 
+  describe '#away_games' do
+    it 'finds all of the away games' do
+      expect(@gtmngr.away_games.count).to eq(7441)
+    end
+  end
+
+  describe '#home_games' do
+    it 'finds all of the home games' do
+      expect(@gtmngr.home_games.count).to eq(7441)
+    end
+  end
 end
