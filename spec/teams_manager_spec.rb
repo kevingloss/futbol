@@ -25,4 +25,10 @@ describe TeamsManager do
       expect(@tmngr.count_of_teams).to eq(32)
     end
   end
+
+  describe '#find_team_name' do
+    it 'returns a team name by team_id number' do
+      expect(@tmngr.find_team_name("54")).to eq("Reign FC")
+    end
+  end
 end
