@@ -38,27 +38,16 @@ RSpec.describe StatTracker do
     end
 
     it 'has attributes' do
-      expect(@stat_tracker.games).to be_a(Array)
-      expect(@stat_tracker.teams).to be_a(Array)
-      expect(@stat_tracker.game_teams).to be_a(Array)
+      expect(@stat_tracker.games_mngr).to be_an_instance_of(GamesManager)
+      expect(@stat_tracker.teams_mngr).to be_an_instance_of(TeamsManager)
+      expect(@stat_tracker.gt_mngr).to be_an_instance_of(GameTeamsManager)
     end
   end
 
   describe '::from_csv' do
-    describe 'returns a StatTracker object' do
-      it 'exists' do
+      it 'returns a stat_tracker object' do
         expect(@stat_tracker).to be_an_instance_of(StatTracker)
       end
-
-      it 'has correct attributes and classes' do
-        expect(@stat_tracker.games).to be_a(Array)
-        expect(@stat_tracker.teams).to be_a(Array)
-        expect(@stat_tracker.game_teams).to be_a(Array)
-        expect(@stat_tracker.games[0]).to be_a(Games)
-        expect(@stat_tracker.teams[0]).to be_a(Teams)
-        expect(@stat_tracker.game_teams[0]).to be_a(GameTeams)
-      end
-    end
   end
 
   # Game Statistics Methods
