@@ -14,4 +14,8 @@ class TeamsManager
       Team.new(row)
     end
   end
+
+  def count_of_teams
+    @teams.count
+  end
 end
