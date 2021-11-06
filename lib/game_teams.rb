@@ -20,4 +20,8 @@ class GameTeam
     @giveaways = data['giveaways'].to_i
     @takeaways = data['takeaways'].to_i
   end
+
+  def home?
+    @h_o_a == 'home'
+  end
 end

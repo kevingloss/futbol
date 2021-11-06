@@ -5,7 +5,7 @@ require './lib/games_manager'
 require 'csv'
 
 describe GamesManager do
-  before(:each) do
+  before(:all) do
     @gmngr = GamesManager.new('./data/games.csv')
   end
 
