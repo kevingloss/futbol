@@ -78,6 +78,18 @@ describe GameTeamsManager do
     end
   end
 
+  describe '#highest_scoring_home_team' do
+    it 'returns the team with the highest average goals as a visitor' do
+      expect(@gtmngr.highest_scoring_home_team).to eq("6")
+    end
+  end
+
+  describe '#lowest_scoring_home_team' do
+    it 'returns the team with the lowest average goals as a visitor' do
+      expect(@gtmngr.lowest_scoring_home_team).to eq("27")
+    end
+  end
+
   describe '#away_games' do
     it 'finds all of the away games' do
       expect(@gtmngr.away_games.count).to eq(7441)
