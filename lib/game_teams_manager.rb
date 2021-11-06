@@ -55,6 +55,16 @@ class GameTeamsManager
     team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
   end
 
+  def highest_scoring_home_team
+    games = games_by_team(self.home_games)
+    team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
+  end
+
+  def lowest_scoring_home_team
+    games = games_by_team(self.home_games)
+    team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
+  end
+
   def away_games
     @game_teams.select {|game_team| game_team.home? == false}
   end
