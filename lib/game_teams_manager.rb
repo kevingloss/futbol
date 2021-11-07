@@ -74,4 +74,5 @@ class GameTeamsManager
   def home_games
     @game_teams.select {|game_team| game_team.home?}
   end
+
 end
