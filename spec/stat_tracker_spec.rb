@@ -143,11 +143,6 @@ RSpec.describe StatTracker do
 
   #Team Statistics - each method takes a team_id as an argument
   describe '#team_info' do
-    it '#find_team - can find a team by team_id' do
-      expect(@stat_tracker.find_team("15")).to eq(@stat_tracker.teams[15])
-    end
-
-
     it 'returns a hash with key/values for all team attributes' do
       expected = {
         "team_id" => "15",
