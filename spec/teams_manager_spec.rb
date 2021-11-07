@@ -28,7 +28,27 @@ describe TeamsManager do
 
   describe '#find_team_name' do
     it 'returns a team name by team_id number' do
+      expect(@tmngr.find_team("4")).to eq(@tmngr.teams[1])
+    end
+  end
+
+  describe '#find_team_name' do
+    it 'returns a team name by team_id number' do
       expect(@tmngr.find_team_name("54")).to eq("Reign FC")
+    end
+  end
+
+  describe '#team_info' do
+    it 'returns a hash with key/values for all team attributes' do
+      expected = {
+        "team_id" => "15",
+        "franchise_id" => "24",
+        "team_name" => "Portland Timbers",
+        "abbreviation" => "POR",
+        "link" => "/api/v1/teams/15"
+      }
+
+      expect(@tmngr.team_info("15")).to eq(expected)
     end
   end
 end

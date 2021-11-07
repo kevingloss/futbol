@@ -109,17 +109,7 @@ class StatTracker
 
   #Team Statistics
   def team_info(team_id)
-    team = find_team(team_id)
-    {
-      "team_id" => team.team_id,
-      "franchise_id" => team.franchise_id,
-      "team_name" => team.team_name,
-      "abbreviation" => team.abbreviation,
-      "link" => team.link
-    }
-    # categories = team.keys
-    # info = team.values
-    # Hash[categories.zip(info)]
+    @teams_mngr.team_info(team_id)
   end
 
   def find_team(team_id)
