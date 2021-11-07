@@ -2,8 +2,10 @@
 require_relative './teams_manager'
 require_relative './game_teams_manager'
 require_relative './games_manager'
+require_relative './statistics'
 
 class StatTracker
+  include Statistics
   attr_accessor :games_mngr, :teams_mngr, :gt_mngr
 
   def initialize(locations)
