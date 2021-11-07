@@ -101,4 +101,5 @@ describe GameTeamsManager do
       expect(@gtmngr.home_games.count).to eq(7441)
     end
   end
+
 end

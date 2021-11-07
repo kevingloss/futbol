@@ -12,6 +12,7 @@ class StatTracker
     @games_mngr = GamesManager.new(locations[:games])
     @teams_mngr = TeamsManager.new(locations[:teams])
     @gt_mngr = GameTeamsManager.new(locations[:game_teams])
+
   end
 
   def self.from_csv(locations)
@@ -243,6 +244,8 @@ class StatTracker
 
   #### Season
   def winningest_coach(season)
+    #games_mngr.all_games_in_season
+    #
     average_wins_by_coach(season).max_by { |coach , average_wins| average_wins }[0]
   end
 
@@ -302,22 +305,13 @@ class StatTracker
     min_team_name = min_team.team_name
   end
 
-  def games_in_season(season)
-    games_in_season = @games.find_all { |game| game.season == season }
-  end
-
-  def game_ids_in_games(games)
-    game_ids_in_games = games.map { |game| game.game_id }
-  end
-
   def game_teams_by_games(games)
-    game_ids = game_ids_in_games(games)
-    @game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
+    game_ids = @games_mngr.game_ids_in_games(games)
+    @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
   end
-
   # helper method to collect all game_teams in a given season
   def game_teams_in_season(season)
-    games_in_season = games_in_season(season)
+    games_in_season = @games_mngr.games_in_season(season)
     game_teams_in_season = game_teams_by_games(games_in_season)
   end
 
