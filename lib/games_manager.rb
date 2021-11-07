@@ -8,7 +8,6 @@ class GamesManager
 
   def initialize(games)
     @games = games
-    # require 'pry'; binding.pry
   end
 
   def self.from_csv(games_data)

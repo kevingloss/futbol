@@ -105,7 +105,6 @@ describe GameTeamsManager do
   describe '#away_games' do
     it 'finds all of the away games' do
       expect(@gtmngr.away_games.count).to eq(7441)
-      expect(@gtmngr.away_games('3')).to eq([])
     end
   end
 
