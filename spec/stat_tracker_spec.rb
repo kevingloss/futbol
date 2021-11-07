@@ -37,6 +37,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker).to be_an_instance_of(StatTracker)
     end
 
+
     it 'has attributes' do
       expect(@stat_tracker.games_mngr).to be_an_instance_of(GamesManager)
       expect(@stat_tracker.teams_mngr).to be_an_instance_of(TeamsManager)
@@ -63,18 +64,20 @@ RSpec.describe StatTracker do
     end
   end
 
-  describe 'percentage wins' do
+  describe '#percentage_visitor_wins' do
     it 'finds the percentage of visitor wins' do
-      expect(@stat_tracker.percentage_visitor_wins).to eq(0.29)
+      expect(@stat_tracker.percentage_visitor_wins).to eq(0.36)
     end
+  end
+  describe '#percentage_home_wins' do
     it 'finds the percentage of home wins' do
-      expect(@stat_tracker.percentage_home_wins).to eq(0.43)
+      expect(@stat_tracker.percentage_home_wins).to eq(0.44)
     end
   end
 
   describe '#percentage of ties' do
     it 'checks the percentage of games that are ties' do
-      expect(@stat_tracker.percentage_ties).to eq(0.29)
+      expect(@stat_tracker.percentage_ties).to eq(0.2)
     end
   end
   describe ' #count_of_games_by_season' do
@@ -143,6 +146,7 @@ RSpec.describe StatTracker do
     it '#find_team - can find a team by team_id' do
       expect(@stat_tracker.find_team("15")).to eq(@stat_tracker.teams[15])
     end
+
 
     it 'returns a hash with key/values for all team attributes' do
       expected = {
@@ -261,12 +265,12 @@ RSpec.describe StatTracker do
   describe ' #most_accurate_team' do
     it 'returns the name of the team with the best ratio of shots to goals for the season' do
     expect(@stat_tracker.most_accurate_team('20122013')).to eq('FC Dallas')
-  end
+    end
   end
   describe ' #least_accurate_team' do
     it 'returns the name of the team with the worst ratio of shots to goals for the season' do
     expect(@stat_tracker.least_accurate_team('20122013')).to eq('Houston Dynamo')
-  end
+    end
   end
   describe ' #games_in_season' do
     it 'returns an array and games' do
@@ -287,6 +291,7 @@ RSpec.describe StatTracker do
       game_teams1 = [@stat_tracker.game_teams[0], @stat_tracker.game_teams[2]]
       expect(@stat_tracker.game_teams_by_games([game1])).to eq(game_teams1)
     end
+
     it 'returns all game_teams associated with multiple input games' do
       games2 = @stat_tracker.games[0..1]
       game_teams2 = @stat_tracker.game_teams[0..3]

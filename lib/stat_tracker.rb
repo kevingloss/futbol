@@ -27,27 +27,16 @@ class StatTracker
 
 
   def percentage_visitor_wins
-    visitor_wins = []
-    @games.each do |game|
-      visitor_wins.push(game) if game.away_goals > game.home_goals
-    end
-    (visitor_wins.count.to_f / @games.count.to_f).round(2)
+    (@games_mngr.total_visitor_wins / @games_mngr.total_games.to_f).round(2)
   end
 
   def percentage_home_wins
-    home_wins = []
-    @games.each do |game|
-      home_wins.push(game) if game.home_goals > game.away_goals
-    end
-    (home_wins.count.to_f / @games.count.to_f).round(2)
+    (@games_mngr.total_home_wins / @games_mngr.total_games.to_f).round(2)
   end
 
   def percentage_ties
-    tie_games = []
-    @games.each do |game|
-      tie_games.push(game) if game.home_goals == game.away_goals
-    end
-    (tie_games.count.to_f / @games.count.to_f).round(2)
+    require "pry"; binding.pry
+    (@games_mngr.total_ties / @games_mngr.total_games.to_f).round(2)
   end
 
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
