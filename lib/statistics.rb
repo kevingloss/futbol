@@ -5,3 +5,7 @@
 # def total_goals(all_games)
 #   all_games.sum { |game| game.goals }
 # end
+
+module Statistics
+
+end

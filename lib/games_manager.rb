@@ -3,6 +3,7 @@ require_relative './games'
 require_relative './statistics'
 
 class GamesManager
+  include Statistics
   attr_reader :games
 
   def initialize(data)

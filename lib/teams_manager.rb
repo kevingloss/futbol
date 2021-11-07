@@ -3,6 +3,7 @@ require_relative './teams'
 require_relative './statistics'
 
 class TeamsManager
+  include Statistics
   attr_reader :teams
 
   def initialize(data)
