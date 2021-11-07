@@ -67,9 +67,14 @@ class GameTeamsManager
     team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
   end
 
-  def away_games
-    @game_teams.select {|game_team| game_team.home? == false}
+  def away_games(team_id = nil)
+    if team_id
+      @game_teams.select {|game_team| game_team.home? == false && game_team.team_id == team_id}
+    else
+      @game_teams.select {|game_team| game_team.home? == false}
+    end
   end
+
 
   def home_games
     @game_teams.select {|game_team| game_team.home?}

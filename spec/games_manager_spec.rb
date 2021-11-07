@@ -45,29 +45,34 @@ describe GamesManager do
   end
   describe '#total_games' do
     it 'it returns total games won by visitors' do
+      @gmngr = GamesManager.new('./data/games_test.csv')
+
       actual = @gmngr.total_games
-      expected = 7441
+      expected = 21
       expect(actual).to eq(expected)
     end
   end
   describe '#total_visitor wins' do
     it 'it returns total games won by visitors' do
+      @gmngr = GamesManager.new('./data/games_test.csv')
       actual = @gmngr.total_visitor_wins
-      expected = 2687
+      expected = 6
       expect(actual).to eq(expected)
     end
   end
   describe '#total_home_wins' do
     it 'it returns total games won by visitors' do
+      @gmngr = GamesManager.new('./data/games_test.csv')
       actual = @gmngr.total_home_wins
-      expected = 3237
+      expected = 9
       expect(actual).to eq(expected)
     end
   end
   describe '#total_ties' do
     it 'it returns total games that have tied' do
+      @gmngr = GamesManager.new('./data/games_test.csv')
       actual = @gmngr.total_ties
-      expected = 1517
+      expected = 6
       expect(actual).to eq(expected)
     end
   end
