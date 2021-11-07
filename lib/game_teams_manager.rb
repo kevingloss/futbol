@@ -80,6 +80,11 @@ class GameTeamsManager
     @game_teams.select {|game_team| game_team.home?}
   end
 
+  def average_win_percentage(team_id)
+    team_games = @game_teams.select {|game_team| game_team.team_id == team_id}
+    (team_games.count {|team_game| team_game.win?} / team_games.count.to_f).round(2)
+  end
+
   def goals_by_team_id
     game_teams_hash = game_teams_by_team_id
     goals_by_team_id = Hash.new(0)
