@@ -54,29 +54,51 @@ RSpec.describe StatTracker do
   # Game Statistics Methods
 
   describe '#highest_total_score' do
-    xit 'will find the highest sum of the team scores from all the games' do
+    it 'will find the highest sum of the team scores from all the games' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.highest_total_score).to eq(6)
     end
   end
   describe '#lowest_total_score' do
-    xit 'will find the lowest sum of the team scores from all the games' do
+    it 'will find the lowest sum of the team scores from all the games' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.lowest_total_score).to eq(2)
     end
   end
 
   describe '#percentage_visitor_wins' do
-    xit 'finds the percentage of visitor wins' do
+    it 'finds the percentage of visitor wins' do
       expect(@stat_tracker.percentage_visitor_wins).to eq(0.36)
     end
   end
   describe '#percentage_home_wins' do
-    xit 'finds the percentage of home wins' do
+    it 'finds the percentage of home wins' do
       expect(@stat_tracker.percentage_home_wins).to eq(0.44)
     end
   end
 
   describe '#percentage of ties' do
-    xit 'checks the percentage of games that are ties' do
+    it 'checks the percentage of games that are ties' do
       expect(@stat_tracker.percentage_ties).to eq(0.2)
     end
   end
@@ -133,55 +155,55 @@ RSpec.describe StatTracker do
 
   # League Stat
   describe '#count_of_teams' do
-    xit 'counts the total number of teams' do
+    it 'counts the total number of teams' do
       expect(@stat_tracker.count_of_teams).to eq(@stat_tracker.teams_mngr.teams.count)
     end
   end
 
   describe '#best_offense' do
-    xit 'returns the team name with the highest average goals per game across seasons' do
+    it 'returns the team name with the highest average goals per game across seasons' do
       expect(@stat_tracker.best_offense).to eq('Reign FC')
     end
   end
 
   describe '#worst_offense' do
-    xit 'returns the team with the lowest average goals per game across seasons' do
+    it 'returns the team with the lowest average goals per game across seasons' do
       expect(@stat_tracker.worst_offense).to eq('Utah Royals FC')
     end
   end
 
   describe '#highest_scoring_visitor' do
-    xit 'returns the highest average scoring visitor team name' do
+    it 'returns the highest average scoring visitor team name' do
       expect(@stat_tracker.highest_scoring_visitor).to eq('FC Dallas')
     end
   end
 
     describe '#lowest_scoring_visitor' do
-      xit 'returns the lowest average scoring visitor team name' do
+      it 'returns the lowest average scoring visitor team name' do
         expect(@stat_tracker.lowest_scoring_visitor).to eq('San Jose Earthquakes')
       end
     end
 
   describe '#highest_scoring_home_team' do
-    xit 'returns the highest average scoring home team name' do
+    it 'returns the highest average scoring home team name' do
       expect(@stat_tracker.highest_scoring_home_team).to eq('Reign FC')
     end
   end
 
   describe '#lowest_scoring_home_team' do
-    xit 'returns the lowest average scoring home team name' do
+    it 'returns the lowest average scoring home team name' do
       expect(@stat_tracker.lowest_scoring_home_team).to eq('Utah Royals FC')
     end
   end
 
   #Team Statistics - each method takes a team_id as an argument
   describe '#team_info' do
-    xit '#find_team - can find a team by team_id' do
-      expect(@stat_tracker.find_team("15")).to eq(@stat_tracker.teams[15])
+    it '#find_team - can find a team by team_id' do
+      expect(@stat_tracker.find_team("15")).to eq(@stat_tracker.teams_mngr.teams[15])
     end
 
 
-    xit 'returns a hash with key/values for all team attributes' do
+    it 'returns a hash with key/values for all team attributes' do
       expected = {
         "team_id" => "15",
         "franchise_id" => "24",
@@ -196,7 +218,7 @@ RSpec.describe StatTracker do
 
   describe '#team_games_by_season' do
     xit 'returns all games played in a season for a given team' do
-      expected = [@stat_tracker.games[18]]
+      expected = [@stat_tracker.games_mngr.games[18]]
       expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
     end
   end
