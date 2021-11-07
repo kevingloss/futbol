@@ -2,8 +2,10 @@
 require_relative './teams_manager'
 require_relative './game_teams_manager'
 require_relative './games_manager'
+require_relative './statistics'
 
 class StatTracker
+  include Statistics
   attr_accessor :games_mngr, :teams_mngr, :gt_mngr
 
   def initialize(locations)
@@ -27,27 +29,15 @@ class StatTracker
 
 
   def percentage_visitor_wins
-    visitor_wins = []
-    @games.each do |game|
-      visitor_wins.push(game) if game.away_goals > game.home_goals
-    end
-    (visitor_wins.count.to_f / @games.count.to_f).round(2)
+    (@games_mngr.total_visitor_wins / @games_mngr.total_games.to_f).round(2)
   end
 
   def percentage_home_wins
-    home_wins = []
-    @games.each do |game|
-      home_wins.push(game) if game.home_goals > game.away_goals
-    end
-    (home_wins.count.to_f / @games.count.to_f).round(2)
+    (@games_mngr.total_home_wins / @games_mngr.total_games.to_f).round(2)
   end
 
   def percentage_ties
-    tie_games = []
-    @games.each do |game|
-      tie_games.push(game) if game.home_goals == game.away_goals
-    end
-    (tie_games.count.to_f / @games.count.to_f).round(2)
+    (@games_mngr.total_ties / @games_mngr.total_games.to_f).round(2)
   end
 
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
@@ -78,93 +68,42 @@ class StatTracker
 
   # League Statistics
   def count_of_teams
-    @teams.count
+    @teams_mngr.count_of_teams
   end
 
   # Methods between lines 123 & 150 are used with best_offense/worst_offense
   # calculating goals across all seasons for a team
+# best offense will need:
+  # all games played by a team
+  # average goals scored per game
+    #total goals scored per game / total games played
+  #could use a hash and do team_id => game_teams array
+
+  #would only call game_teams_mng then team_mngr for team name from id #
   def best_offense
-    @teams.max_by do |team|
-      average_goals(team)
-    end.team_name
+    @teams_mngr.find_team_name(@gt_mngr.best_offense)
   end
 
   def worst_offense
-    @teams.min_by do |team|
-      average_goals(team)
-    end.team_name
-  end
-
-  # average goals across all games
-  def average_goals(team)
-    all_games = team_games(team)
-    return 0 if all_games.empty?
-
-    total_goals(all_games) / all_games.count.to_f
-  end
-
-  # finds all games a team plays in, and returns that array
-  def team_games(team)
-    @game_teams.find_all do |game|
-      game.team_id == team.team_id
-    end
-  end
-
-  # sums the goals for all games of a team
-  def total_goals(all_games)
-    all_games.sum { |game| game.goals }
+    @teams_mngr.find_team_name(@gt_mngr.worst_offense)
   end
 
   #Lines 153 to 200 use these methods to find teh highest/lowest scoring teams
   #based on being the home or away team
   def highest_scoring_visitor
-    @teams.max_by do |team|
-      visiting_average_goals(team)
-    end.team_name
-  end
-
-  def visiting_team_games(team)
-    @game_teams.find_all do |game|
-      game.team_id == team.team_id && game.h_o_a == 'away'
-    end
-  end
-
-  def visiting_average_goals(team)
-    visiting_games = visiting_team_games(team)
-    return 0 if visiting_games.empty?
-
-    total_goals(visiting_games) / visiting_games.count.to_f
-  end
-
-  def highest_scoring_home_team
-    @teams.max_by do |team|
-      home_average_goals(team)
-    end.team_name
-  end
-
-  def home_team_games(team)
-    @game_teams.find_all do |game|
-      game.team_id == team.team_id && game.h_o_a == 'home'
-    end
-  end
-
-  def home_average_goals(team)
-    home_games = home_team_games(team)
-    return 0 if home_games.empty?
-
-    total_goals(home_games) / home_games.count.to_f
+    @teams_mngr.find_team_name(@gt_mngr.highest_scoring_visitor)
   end
 
   def lowest_scoring_visitor
-    @teams.min_by do |team|
-      visiting_average_goals(team)
-    end.team_name
+    @teams_mngr.find_team_name(@gt_mngr.lowest_scoring_visitor)
+  end
+
+  def highest_scoring_home_team
+    @teams_mngr.find_team_name(@gt_mngr.highest_scoring_home_team)
   end
 
   def lowest_scoring_home_team
-    @teams.min_by do |team|
-      home_average_goals(team)
-    end.team_name
+    @teams_mngr.find_team_name(@gt_mngr.lowest_scoring_home_team)
   end
 
 

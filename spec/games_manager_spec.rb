@@ -5,7 +5,7 @@ require './lib/games_manager'
 require 'csv'
 
 describe GamesManager do
-  before(:each) do
+  before(:all) do
     @gmngr = GamesManager.new('./data/games.csv')
   end
 
@@ -41,6 +41,34 @@ describe GamesManager do
   describe ' #average_goals_per_game' do
     it 'returns the average # of goals per game' do
       expect(@gmngr.average_goals_per_game).to eq(4.22)
+    end
+  end
+  describe '#total_games' do
+    it 'it returns total games won by visitors' do
+      actual = @gmngr.total_games
+      expected = 7441
+      expect(actual).to eq(expected)
+    end
+  end
+  describe '#total_visitor wins' do
+    it 'it returns total games won by visitors' do
+      actual = @gmngr.total_visitor_wins
+      expected = 2687
+      expect(actual).to eq(expected)
+    end
+  end
+  describe '#total_home_wins' do
+    it 'it returns total games won by visitors' do
+      actual = @gmngr.total_home_wins
+      expected = 3237
+      expect(actual).to eq(expected)
+    end
+  end
+  describe '#total_ties' do
+    it 'it returns total games that have tied' do
+      actual = @gmngr.total_ties
+      expected = 1517
+      expect(actual).to eq(expected)
     end
   end
 end

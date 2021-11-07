@@ -1,7 +1,9 @@
 require 'csv'
 require_relative './games'
+require_relative './statistics'
 
 class GamesManager
+  include Statistics
   attr_reader :games
 
   def initialize(data)
@@ -46,50 +48,31 @@ class GamesManager
     @games.map { |game| game.total_goals }.min
   end
 
-
-  def method_name1
-
+  def total_games
+        @games.count
   end
 
-  def method_name2
-
+  def total_visitor_wins
+    visitor_wins = []
+    @games.each do |game|
+      visitor_wins.push(game) if game.away_goals > game.home_goals
+    end
+    visitor_wins.count
   end
 
-  def method_name3
-
+  def total_home_wins
+    home_wins = []
+    @games.each do |game|
+      home_wins.push(game) if game.away_goals < game.home_goals
+    end
+    home_wins.count
   end
 
-  def method_name4
-
+  def total_ties
+    ties = []
+    @games.each do |game|
+      ties.push(game) if game.away_goals == game.home_goals
+    end
+    ties.count
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end

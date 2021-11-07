@@ -1,7 +1,9 @@
 require 'csv'
 require_relative './teams'
+require_relative './statistics'
 
 class TeamsManager
+  include Statistics
   attr_reader :teams
 
   def initialize(data)
@@ -13,5 +15,13 @@ class TeamsManager
     rows.map do |row|
       Team.new(row)
     end
+  end
+
+  def count_of_teams
+    @teams.count
+  end
+
+  def find_team_name(team_id)
+    @teams.find {|team| team.team_id == team_id}.team_name
   end
 end
