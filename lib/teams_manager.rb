@@ -21,7 +21,22 @@ class TeamsManager
     @teams.count
   end
 
+  def find_team(team_id)
+    @teams.find {|team| team.team_id == team_id}
+  end
+
   def find_team_name(team_id)
-    @teams.find {|team| team.team_id == team_id}.team_name
+    find_team(team_id).team_name
+  end
+
+  def team_info(team_id)
+    team = find_team(team_id)
+    {
+      "team_id" => team.team_id,
+      "franchise_id" => team.franchise_id,
+      "team_name" => team.team_name,
+      "abbreviation" => team.abbreviation,
+      "link" => team.link
+    }
   end
 end
