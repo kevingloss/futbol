@@ -6,7 +6,7 @@ require 'csv'
 
 describe GameTeamsManager do
   before(:all) do
-    @gtmngr = GameTeamsManager.new('./data/game_teams.csv')
+    @gtmngr = GameTeamsManager.from_csv('./data/game_teams.csv')
   end
 
   describe '#initialize' do
@@ -36,6 +36,18 @@ describe GameTeamsManager do
     it 'creates a hash sorted by team id and average goals per game' do
       argument = @gtmngr.games_by_team([@gtmngr.game_teams[0], @gtmngr.game_teams[1]])
       expect(@gtmngr.team_average_goals(argument)).to be_a(Hash)
+    end
+  end
+
+  describe ' #game_teams_by_team_id' do
+    it 'creates a hash' do
+      expect(@gtmngr.game_teams_by_team_id.class).to be(Hash)
+    end
+    it 'creates a hash with an array for every value' do
+      expect(@gtmngr.game_teams_by_team_id.values.all?{|value| value.class == Array}).to eq(true)
+    end
+    it 'creates a hash with an array of GameTeam objects' do
+      expect(@gtmngr.game_teams_by_team_id.values.flatten.all?{|value| value.class == GameTeam}).to eq(true)
     end
   end
 
@@ -102,4 +114,17 @@ describe GameTeamsManager do
       expect(@gtmngr.home_games.count).to eq(7441)
     end
   end
+
+  describe ' #goals_by_team_id' do
+    it 'returns a hash' do
+      expect(@gtmngr.goals_by_team_id).to be_a(Hash)
+    end
+    it 'returns a hash with arrays as values' do
+      expect(@gtmngr.goals_by_team_id.values.all?{|value| value.class == Array}).to eq(true)
+    end
+    it 'returns a hash with an array of integers' do
+      expect(@gtmngr.goals_by_team_id.values.flatten.all?{|value| value.class == Integer}).to eq(true)
+    end
+  end
+
 end

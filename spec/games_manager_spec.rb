@@ -6,7 +6,7 @@ require 'csv'
 
 describe GamesManager do
   before(:all) do
-    @gmngr = GamesManager.new('./data/games.csv')
+    @gmngr = GamesManager.from_csv('./data/games.csv')
   end
 
   describe '#initialize' do
@@ -75,5 +75,16 @@ describe GamesManager do
       expected = 6
       expect(actual).to eq(expected)
     end
+  end
+
+  it "checks the helper method #" do
+    expect(@gmngr.games_in_season('20122013')).to be_an(Array)
+  end
+
+  it 'returns an array of game ids for each input game' do
+    game1 = @gmngr.games[0]
+    games2 = @gmngr.games[0..2]
+    expect(@gmngr.game_ids_in_games([game1])).to eq(['2012030221'])
+    expect(@gmngr.game_ids_in_games(games2)).to eq(['2012030221','2012030222','2012030223'])
   end
 end

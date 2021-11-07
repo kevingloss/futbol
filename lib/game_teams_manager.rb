@@ -6,15 +6,16 @@ class GameTeamsManager
   include Statistics
   attr_reader :game_teams
 
-  def initialize(data)
-    @game_teams = create_game_teams(data)
+  def initialize(game_teams)
+    @game_teams = game_teams
   end
 
-  def create_game_teams(game_teams_data)
+  def self.from_csv(game_teams_data)
     rows = CSV.read(game_teams_data, headers: true)
-    rows.map do |row|
+    game_teams = rows.map do |row|
       GameTeam.new(row)
     end
+    GameTeamsManager.new(game_teams)
   end
 
   def best_offense
@@ -29,6 +30,10 @@ class GameTeamsManager
     team_games.transform_values do |game_teams|
       {average_goals: average_goals(game_teams).round(4)}
     end
+  end
+
+  def game_teams_by_team_id
+    @game_teams.group_by {|game_team| game_team.team_id}
   end
 
   def games_by_team(team_games = @game_teams)
@@ -78,5 +83,14 @@ class GameTeamsManager
 
   def home_games
     @game_teams.select {|game_team| game_team.home?}
+  end
+
+  def goals_by_team_id
+    game_teams_hash = game_teams_by_team_id
+    goals_by_team_id = Hash.new(0)
+    game_teams_hash.each do |team_id, game_teams|
+      goals_by_team_id[team_id] = game_teams.map{|game_team| game_team.goals}
+    end
+    goals_by_team_id
   end
 end

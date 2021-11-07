@@ -9,9 +9,9 @@ class StatTracker
   attr_accessor :games_mngr, :teams_mngr, :gt_mngr
 
   def initialize(locations)
-    @games_mngr = GamesManager.new(locations[:games])
-    @teams_mngr = TeamsManager.new(locations[:teams])
-    @gt_mngr = GameTeamsManager.new(locations[:game_teams])
+    @games_mngr = GamesManager.from_csv(locations[:games])
+    @teams_mngr = TeamsManager.from_csv(locations[:teams])
+    @gt_mngr = GameTeamsManager.from_csv(locations[:game_teams])
   end
 
   def self.from_csv(locations)
@@ -42,13 +42,13 @@ class StatTracker
 
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
   def count_of_games_by_season
-    count_of_games_by_season = @games.count_of_games_by_season
+    count_of_games_by_season = @games_mngr.count_of_games_by_season
   end
 
   # Average number of goals scored in a game across all seasons including
   # both home and away goals (rounded to the nearest 100th) - float
   def average_goals_per_game
-    avg_goals_per_game = @games.average_goals_per_game
+    avg_goals_per_game = @games_mngr.average_goals_per_game
   end
 
   # Average number of goals scored in a game organized in a hash
@@ -57,7 +57,7 @@ class StatTracker
   # as values (rounded to the nearest 100th)	- Hash
   def average_goals_by_season
     avg_goals_by_season = Hash.new(0)
-    games_by_season = @games.group_by{|game|game.season}
+    games_by_season = @games_mngr.games.group_by{|game|game.season}
     games_by_season.each do |season, games|
       total_goals = games.map{|game| game.away_goals + game.home_goals}.sum
       avg_goals = (total_goals/games.count.to_f)
@@ -109,17 +109,7 @@ class StatTracker
 
   #Team Statistics
   def team_info(team_id)
-    team = find_team(team_id)
-    {
-      "team_id" => team.team_id,
-      "franchise_id" => team.franchise_id,
-      "team_name" => team.team_name,
-      "abbreviation" => team.abbreviation,
-      "link" => team.link
-    }
-    # categories = team.keys
-    # info = team.values
-    # Hash[categories.zip(info)]
+    @teams_mngr.team_info(team_id)
   end
 
   def find_team(team_id)
@@ -188,30 +178,15 @@ class StatTracker
     # percentage.round(2)
   end
 
+  # Highest number of goals a particular team has scored in a single game.
   def most_goals_scored(team_id)
-    total = []
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    total << away_games = away_games.map { |game| game.away_goals }.max
-    total << home_games = home_games.map { |game| game.home_goals }.max
-    total.max
+    goals_by_team_id = @gt_mngr.goals_by_team_id
+    max_goals_by_team = goals_by_team_id[team_id].max
   end
 
   def fewest_goals_scored(team_id)
-    total = []
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    total << away_games = away_games.map { |game| game.away_goals }.min
-    total << home_games = home_games.map { |game| game.home_goals }.min
-    total.min
+    goals_by_team_id = @gt_mngr.goals_by_team_id
+    min_goals_by_team = goals_by_team_id[team_id].min
   end
 
   #given a team_id, return a hash of the win percentages of all opponents
@@ -244,7 +219,6 @@ class StatTracker
     opponent_win_percentages = opponent_win_percentages(team_id)
     rival = opponent_win_percentages.max_by{|away_team_name, win_percentage| win_percentage}[0]
   end
-
   #### Season
   def winningest_coach(season)
     average_wins_by_coach(season).max_by { |coach , average_wins| average_wins }[0]
@@ -257,8 +231,8 @@ class StatTracker
   def average_wins_by_coach(season)
     average_percent_won_by_coaches = Hash.new
     game_teams_by_coaches(season).each do |coach , game_teams|
-      total_wins = game_teams.find_all{ |game_team| game_team.result == 'WIN'}.count.to_f
-      average_percent_won_by_coaches[coach] = total_wins / game_teams.count.to_f
+      total_wins_by_coach = game_teams.find_all{ |game_team| game_team.result == 'WIN'}.count.to_f
+      average_percent_won_by_coaches[coach] = total_wins_by_coach / game_teams.count.to_f
       end
     average_percent_won_by_coaches
   end
@@ -266,7 +240,6 @@ class StatTracker
   def worst_coach(season)
     average_wins_by_coach(season).min_by { |coach , average_wins| average_wins }[0]
   end
-
 
   # accept an array of game teams and return a single accuracy score
   def accuracy(game_teams)
@@ -306,22 +279,13 @@ class StatTracker
     min_team_name = min_team.team_name
   end
 
-  def games_in_season(season)
-    games_in_season = @games.find_all { |game| game.season == season }
-  end
-
-  def game_ids_in_games(games)
-    game_ids_in_games = games.map { |game| game.game_id }
-  end
-
   def game_teams_by_games(games)
-    game_ids = game_ids_in_games(games)
-    @game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
+    game_ids = @games_mngr.game_ids_in_games(games)
+    @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
   end
-
   # helper method to collect all game_teams in a given season
   def game_teams_in_season(season)
-    games_in_season = games_in_season(season)
+    games_in_season = @games_mngr.games_in_season(season)
     game_teams_in_season = game_teams_by_games(games_in_season)
   end
 

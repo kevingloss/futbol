@@ -6,16 +6,17 @@ class GamesManager
   include Statistics
   attr_reader :games
 
-  def initialize(data)
-    @games = create_games(data)
+  def initialize(games)
+    @games = games
     # require 'pry'; binding.pry
   end
 
-  def create_games(games_data)
+  def self.from_csv(games_data)
     rows = CSV.read(games_data, headers: true)
-    rows.map do |row|
+    games = rows.map do |row|
       Game.new(row)
     end
+    GamesManager.new(games)
   end
 
 
@@ -74,5 +75,13 @@ class GamesManager
       ties.push(game) if game.away_goals == game.home_goals
     end
     ties.count
+  end
+
+  def games_in_season(season)
+    games_in_season = @games.find_all { |game| game.season == season }
+  end
+
+  def game_ids_in_games(games)
+    game_ids_in_games = games.map { |game| game.game_id }
   end
 end
