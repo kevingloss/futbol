@@ -1,6 +1,4 @@
-require 'csv'
-
-class GameTeams
+class GameTeam
   attr_reader :game_id, :team_id, :h_o_a, :result, :settled_in, :head_coach
   attr_reader :goals, :shots, :tackles, :pim, :power_play_opportunities, :power_play_goals
   attr_reader :face_off_win_percentage, :giveaways, :takeaways
@@ -21,5 +19,9 @@ class GameTeams
     @face_off_win_percentage = data['faceOffWinPercentage'].to_f
     @giveaways = data['giveaways'].to_i
     @takeaways = data['takeaways'].to_i
+  end
+
+  def home?
+    @h_o_a == 'home'
   end
 end
