@@ -76,4 +76,12 @@ class GamesManager
     end
     ties.count
   end
+
+  def games_in_season(season)
+    games_in_season = @games.find_all { |game| game.season == season }
+  end
+
+  def game_ids_in_games(games)
+    game_ids_in_games = games.map { |game| game.game_id }
+  end
 end

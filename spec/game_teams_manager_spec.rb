@@ -125,4 +125,5 @@ describe GameTeamsManager do
       expect(@gtmngr.goals_by_team_id.values.flatten.all?{|value| value.class == Integer}).to eq(true)
     end
   end
+
 end
