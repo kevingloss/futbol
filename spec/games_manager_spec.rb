@@ -72,6 +72,19 @@ describe GamesManager do
     end
   end
 
+  describe ' #games_with_home_team_id' do
+    it 'returns a new GamesManager object' do
+      expect(@gmngr.games_with_home_team_id('3')).to be_a(GamesManager)
+    end
+    it 'GamesManager obejct is initialized with correct games array' do
+      games_array = @gmngr.games[0..6]
+      new_gmngr1 = GamesManager.new(games_array)
+      new_gmngr2 = new_gmngr1.games_with_home_team_id('6')
+      team_6_games = [new_gmngr1.games[0], new_gmngr1.games[1], new_gmngr1.games[4]]
+      expect(new_gmngr1.games_with_home_team_id('6').games).to eq(team_6_games)
+    end
+  end
+
   it "checks the helper method #" do
     expect(@gmngr.games_in_season('20122013')).to be_an(Array)
   end

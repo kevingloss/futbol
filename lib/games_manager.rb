@@ -81,6 +81,11 @@ class GamesManager
     games_in_season = @games.find_all { |game| game.season == season }
   end
 
+  def games_with_home_team_id(home_team_id)
+    games = @games.find_all{|game| game.home_team_id == home_team_id}
+    GamesManager.new(games)
+  end
+
   def game_ids_in_games(games)
     game_ids_in_games = games.map { |game| game.game_id }
   end
