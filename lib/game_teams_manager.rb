@@ -31,6 +31,10 @@ class GameTeamsManager
     end
   end
 
+  def game_teams_by_team_id
+    @game_teams.group_by {|game_team| game_team.team_id}
+  end
+
   def games_by_team(team_games = @game_teams)
     team_games.group_by {|game_team| game_team.team_id}
   end
@@ -73,5 +77,14 @@ class GameTeamsManager
 
   def home_games
     @game_teams.select {|game_team| game_team.home?}
+  end
+
+  def goals_by_team_id
+    game_teams_hash = game_teams_by_team_id
+    total_goals_by_team_id = Hash.new(0)
+    game_teams_hash.each do |team_id, game_teams|
+      total_goals_by_team_id[team_id] = total_goals(game_teams)
+    end
+    total_goals_by_team_id
   end
 end

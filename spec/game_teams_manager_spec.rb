@@ -39,6 +39,18 @@ describe GameTeamsManager do
     end
   end
 
+  describe ' #game_teams_by_team_id' do
+    it 'creates a hash' do
+      expect(@gtmngr.game_teams_by_team_id.class).to be(Hash)
+    end
+    it 'creates a hash with an array for every value' do
+      expect(@gtmngr.game_teams_by_team_id.values.all?{|value| value.class == Array}).to eq(true)
+    end
+    it 'creates a hash with an array of GameTeam objects' do
+      expect(@gtmngr.game_teams_by_team_id.values.flatten.all?{|value| value.class == GameTeam}).to eq(true)
+    end
+  end
+
   describe '#games_by_team' do
     it 'creates a hash sorted by team id and giving all game_team objects' do
       argument = [@gtmngr.game_teams[0], @gtmngr.game_teams[1]]
@@ -99,6 +111,15 @@ describe GameTeamsManager do
   describe '#home_games' do
     it 'finds all of the home games' do
       expect(@gtmngr.home_games.count).to eq(7441)
+    end
+  end
+
+  describe ' #goals_by_team_id' do
+    it 'returns a hash' do
+      expect(@gtmngr.goals_by_team_id).to be_a(Hash)
+    end
+    it 'returns a hash with game_id keys and an integer value' do
+      expect(@gtmngr.goals_by_team_id.all?{|key, value| key.class == String && value.class == Integer}).to eq(true)
     end
   end
 end
