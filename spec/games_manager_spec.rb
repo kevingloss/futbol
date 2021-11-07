@@ -6,7 +6,7 @@ require 'csv'
 
 describe GamesManager do
   before(:all) do
-    @gmngr = GamesManager.new('./data/games.csv')
+    @gmngr = GamesManager.from_csv('./data/games.csv')
   end
 
   describe '#initialize' do

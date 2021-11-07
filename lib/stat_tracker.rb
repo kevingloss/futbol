@@ -9,10 +9,9 @@ class StatTracker
   attr_accessor :games_mngr, :teams_mngr, :gt_mngr
 
   def initialize(locations)
-    @games_mngr = GamesManager.new(locations[:games])
-    @teams_mngr = TeamsManager.new(locations[:teams])
-    @gt_mngr = GameTeamsManager.new(locations[:game_teams])
-
+    @games_mngr = GamesManager.from_csv(locations[:games])
+    @teams_mngr = TeamsManager.from_csv(locations[:teams])
+    @gt_mngr = GameTeamsManager.from_csv(locations[:game_teams])
   end
 
   def self.from_csv(locations)
@@ -99,17 +98,7 @@ class StatTracker
   end
   #Team Statistics
   def team_info(team_id)
-    team = find_team(team_id)
-    {
-      "team_id" => team.team_id,
-      "franchise_id" => team.franchise_id,
-      "team_name" => team.team_name,
-      "abbreviation" => team.abbreviation,
-      "link" => team.link
-    }
-    # categories = team.keys
-    # info = team.values
-    # Hash[categories.zip(info)]
+    @teams_mngr.team_info(team_id)
   end
 
   def find_team(team_id)
@@ -173,30 +162,15 @@ class StatTracker
     percentage.round(2)
   end
 
+  # Highest number of goals a particular team has scored in a single game.
   def most_goals_scored(team_id)
-    total = []
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    total << away_games = away_games.map { |game| game.away_goals }.max
-    total << home_games = home_games.map { |game| game.home_goals }.max
-    total.max
+    goals_by_team_id = @gt_mngr.goals_by_team_id
+    max_goals_by_team = goals_by_team_id[team_id].max
   end
 
   def fewest_goals_scored(team_id)
-    total = []
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    total << away_games = away_games.map { |game| game.away_goals }.min
-    total << home_games = home_games.map { |game| game.home_goals }.min
-    total.min
+    goals_by_team_id = @gt_mngr.goals_by_team_id
+    min_goals_by_team = goals_by_team_id[team_id].min
   end
 
   #given a team_id, return a hash of the win percentages of all opponents
