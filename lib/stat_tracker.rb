@@ -184,30 +184,15 @@ class StatTracker
     percentage.round(2)
   end
 
+  # Highest number of goals a particular team has scored in a single game.
   def most_goals_scored(team_id)
-    total = []
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    total << away_games = away_games.map { |game| game.away_goals }.max
-    total << home_games = home_games.map { |game| game.home_goals }.max
-    total.max
+    goals_by_team_id = @gt_mngr.goals_by_team_id
+    max_goals_by_team = goals_by_team_id[team_id].max
   end
 
   def fewest_goals_scored(team_id)
-    total = []
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    total << away_games = away_games.map { |game| game.away_goals }.min
-    total << home_games = home_games.map { |game| game.home_goals }.min
-    total.min
+    goals_by_team_id = @gt_mngr.goals_by_team_id
+    min_goals_by_team = goals_by_team_id[team_id].min
   end
 
   #given a team_id, return a hash of the win percentages of all opponents

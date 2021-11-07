@@ -118,8 +118,11 @@ describe GameTeamsManager do
     it 'returns a hash' do
       expect(@gtmngr.goals_by_team_id).to be_a(Hash)
     end
-    it 'returns a hash with game_id keys and an integer value' do
-      expect(@gtmngr.goals_by_team_id.all?{|key, value| key.class == String && value.class == Integer}).to eq(true)
+    it 'returns a hash with arrays as values' do
+      expect(@gtmngr.goals_by_team_id.values.all?{|value| value.class == Array}).to eq(true)
+    end
+    it 'returns a hash with an array of integers' do
+      expect(@gtmngr.goals_by_team_id.values.flatten.all?{|value| value.class == Integer}).to eq(true)
     end
   end
 end

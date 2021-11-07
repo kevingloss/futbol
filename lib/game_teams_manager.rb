@@ -81,10 +81,10 @@ class GameTeamsManager
 
   def goals_by_team_id
     game_teams_hash = game_teams_by_team_id
-    total_goals_by_team_id = Hash.new(0)
+    goals_by_team_id = Hash.new(0)
     game_teams_hash.each do |team_id, game_teams|
-      total_goals_by_team_id[team_id] = total_goals(game_teams)
+      goals_by_team_id[team_id] = game_teams.map{|game_team| game_team.goals}
     end
-    total_goals_by_team_id
+    goals_by_team_id
   end
 end
