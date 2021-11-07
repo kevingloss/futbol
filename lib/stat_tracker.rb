@@ -244,8 +244,6 @@ class StatTracker
 
   #### Season
   def winningest_coach(season)
-    #games_mngr.all_games_in_season
-    #
     average_wins_by_coach(season).max_by { |coach , average_wins| average_wins }[0]
   end
 

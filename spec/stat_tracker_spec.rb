@@ -258,14 +258,36 @@ RSpec.describe StatTracker do
     end
 
     it 'Name of the Coach with the best win percentage for the season' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.winningest_coach('20122013')).to be_a(String)
-      expect(@stat_tracker.winningest_coach('20122013')).to eq("Dan Lacroix")
+      expect(@stat_tracker.winningest_coach('20122013')).to eq("Claude Julien")
     end
   end
   describe '#worst_coach' do
     it 'Name of the Coach with the worst win percentage for the season' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.winningest_coach('20122013')).to be_a(String)
-      expect(@stat_tracker.worst_coach('20122013')).to eq("Martin Raymond")
+      expect(@stat_tracker.worst_coach('20122013')).to eq("John Tortorella")
     end
   end
   describe ' #accuracy' do
