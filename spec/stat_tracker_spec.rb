@@ -227,9 +227,15 @@ RSpec.describe StatTracker do
       end
     end
 
-  describe '#most_goals_scored' do
-    xit 'returns a teams most goals scored in a game' do
-        expect(@stat_tracker.most_goals_scored('30')).to eq(3)
+  describe ' #most_goals_scored' do
+    it 'returns a teams most goals scored in a game' do
+        expect(@stat_tracker.most_goals_scored('30')).to eq(6)
+    end
+  end
+
+  describe ' #fewest_goals_scored' do
+    it 'returns a teams fewest goals scored in a game' do
+        expect(@stat_tracker.fewest_goals_scored('30')).to eq(0)
     end
   end
 
@@ -250,12 +256,6 @@ RSpec.describe StatTracker do
       team_id = @stat_tracker.teams[5].team_id
       expect(@stat_tracker.favorite_opponent(team_id)).to be_a(String)
       expect(@stat_tracker.favorite_opponent(team_id)).to eq('FC Dallas')
-    end
-  end
-
-  describe '#fewest_goals_scored' do
-    xit 'returns a teams most goals scored in a game' do
-      expect(@stat_tracker.most_goals_scored('30')).to eq(3)
     end
   end
 
