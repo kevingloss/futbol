@@ -6,7 +6,7 @@ require 'csv'
 
 describe GameTeamsManager do
   before(:all) do
-    @gtmngr = GameTeamsManager.new('./data/game_teams.csv')
+    @gtmngr = GameTeamsManager.from_csv('./data/game_teams.csv')
   end
 
   describe '#initialize' do

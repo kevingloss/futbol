@@ -6,15 +6,16 @@ class TeamsManager
   include Statistics
   attr_reader :teams
 
-  def initialize(data)
-    @teams = create_teams(data)
+  def initialize(teams)
+    @teams = teams
   end
 
-  def create_teams(teams_data)
+  def self.from_csv(teams_data)
     rows = CSV.read(teams_data, headers: true)
-    rows.map do |row|
+    teams = rows.map do |row|
       Team.new(row)
     end
+    TeamsManager.new(teams)
   end
 
   def count_of_teams

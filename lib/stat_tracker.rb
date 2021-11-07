@@ -9,9 +9,9 @@ class StatTracker
   attr_accessor :games_mngr, :teams_mngr, :gt_mngr
 
   def initialize(locations)
-    @games_mngr = GamesManager.new(locations[:games])
-    @teams_mngr = TeamsManager.new(locations[:teams])
-    @gt_mngr = GameTeamsManager.new(locations[:game_teams])
+    @games_mngr = GamesManager.from_csv(locations[:games])
+    @teams_mngr = TeamsManager.from_csv(locations[:teams])
+    @gt_mngr = GameTeamsManager.from_csv(locations[:game_teams])
   end
 
   def self.from_csv(locations)

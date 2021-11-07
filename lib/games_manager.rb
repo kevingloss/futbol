@@ -6,16 +6,17 @@ class GamesManager
   include Statistics
   attr_reader :games
 
-  def initialize(data)
-    @games = create_games(data)
+  def initialize(games)
+    @games = games
     # require 'pry'; binding.pry
   end
 
-  def create_games(games_data)
+  def self.from_csv(games_data)
     rows = CSV.read(games_data, headers: true)
-    rows.map do |row|
+    games = rows.map do |row|
       Game.new(row)
     end
+    GamesManager.new(games)
   end
 
 

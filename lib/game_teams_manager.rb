@@ -6,15 +6,16 @@ class GameTeamsManager
   include Statistics
   attr_reader :game_teams
 
-  def initialize(data)
-    @game_teams = create_game_teams(data)
+  def initialize(game_teams)
+    @game_teams = game_teams
   end
 
-  def create_game_teams(game_teams_data)
+  def self.from_csv(game_teams_data)
     rows = CSV.read(game_teams_data, headers: true)
-    rows.map do |row|
+    game_teams = rows.map do |row|
       GameTeam.new(row)
     end
+    GameTeamsManager.new(game_teams)
   end
 
   def best_offense

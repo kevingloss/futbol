@@ -6,7 +6,7 @@ require 'csv'
 
 describe TeamsManager do
   before(:all) do
-    @tmngr = TeamsManager.new('./data/teams.csv')
+    @tmngr = TeamsManager.from_csv('./data/teams.csv')
   end
 
   describe '#initialize' do
