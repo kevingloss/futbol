@@ -39,4 +39,10 @@ describe GameTeam do
       expect(@game_team.home?).to be(false)
     end
   end
+
+  describe '#win?' do
+    it 'returns true if team result was a win' do
+      expect(@game_team.win?).to be(false)
+    end
+  end
 end
