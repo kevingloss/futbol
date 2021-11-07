@@ -24,4 +24,8 @@ class GameTeam
   def home?
     @h_o_a == 'home'
   end
+
+  def win?
+    @result == "WIN"
+  end
 end

@@ -114,6 +114,12 @@ describe GameTeamsManager do
     end
   end
 
+  describe '#average_win_percentage' do
+    it 'returns the hash of seasons and the win percentage' do
+      expect(@gtmngr.average_win_percentage("6")).to eq(0.49)
+    end
+  end
+
   describe ' #goals_by_team_id' do
     it 'returns a hash' do
       expect(@gtmngr.goals_by_team_id).to be_a(Hash)
@@ -125,5 +131,4 @@ describe GameTeamsManager do
       expect(@gtmngr.goals_by_team_id.values.flatten.all?{|value| value.class == Integer}).to eq(true)
     end
   end
-
 end
