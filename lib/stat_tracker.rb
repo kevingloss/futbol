@@ -43,13 +43,13 @@ class StatTracker
 
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
   def count_of_games_by_season
-    count_of_games_by_season = @games.count_of_games_by_season
+    count_of_games_by_season = @games_mngr.count_of_games_by_season
   end
 
   # Average number of goals scored in a game across all seasons including
   # both home and away goals (rounded to the nearest 100th) - float
   def average_goals_per_game
-    avg_goals_per_game = @games.average_goals_per_game
+    avg_goals_per_game = @games_mngr.average_goals_per_game
   end
 
   # Average number of goals scored in a game organized in a hash
@@ -58,7 +58,7 @@ class StatTracker
   # as values (rounded to the nearest 100th)	- Hash
   def average_goals_by_season
     avg_goals_by_season = Hash.new(0)
-    games_by_season = @games.group_by{|game|game.season}
+    games_by_season = @games_mngr.games.group_by{|game|game.season}
     games_by_season.each do |season, games|
       total_goals = games.map{|game| game.away_goals + game.home_goals}.sum
       avg_goals = (total_goals/games.count.to_f)
@@ -241,7 +241,6 @@ class StatTracker
     opponent_win_percentages = opponent_win_percentages(team_id)
     rival = opponent_win_percentages.max_by{|away_team_name, win_percentage| win_percentage}[0]
   end
-
   #### Season
   def winningest_coach(season)
     average_wins_by_coach(season).max_by { |coach , average_wins| average_wins }[0]
@@ -254,8 +253,8 @@ class StatTracker
   def average_wins_by_coach(season)
     average_percent_won_by_coaches = Hash.new
     game_teams_by_coaches(season).each do |coach , game_teams|
-      total_wins = game_teams.find_all{ |game_team| game_team.result == 'WIN'}.count.to_f
-      average_percent_won_by_coaches[coach] = total_wins / game_teams.count.to_f
+      total_wins_by_coach = game_teams.find_all{ |game_team| game_team.result == 'WIN'}.count.to_f
+      average_percent_won_by_coaches[coach] = total_wins_by_coach / game_teams.count.to_f
       end
     average_percent_won_by_coaches
   end
@@ -263,7 +262,6 @@ class StatTracker
   def worst_coach(season)
     average_wins_by_coach(season).min_by { |coach , average_wins| average_wins }[0]
   end
-
 
   # accept an array of game teams and return a single accuracy score
   def accuracy(game_teams)

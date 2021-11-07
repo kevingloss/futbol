@@ -81,18 +81,51 @@ RSpec.describe StatTracker do
     end
   end
   describe ' #count_of_games_by_season' do
-    xit 'returns a hash with correct count of games per season' do
+    it 'returns a hash with correct count of games per season' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.count_of_games_by_season).to be_a(Hash)
       expect(@stat_tracker.count_of_games_by_season).to eq({ '20122013' => 6, '20142015' => 15 })
     end
   end
   describe ' #average_goals_per_game' do
-    xit 'returns the average # of goals per game' do
+    it 'returns the average # of goals per game' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.average_goals_per_game).to eq(3.86)
     end
   end
   describe ' #average_goals_by_season' do
-    xit 'returns a hash with average # of goals per season' do
+    it 'returns a hash with average # of goals per season' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.average_goals_by_season()).to be_a(Hash)
       expect(@stat_tracker.average_goals_by_season).to eq({ '20122013' => 3.83, '20142015' => 3.87 })
     end
