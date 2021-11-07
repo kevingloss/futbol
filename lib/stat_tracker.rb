@@ -35,7 +35,6 @@ class StatTracker
   end
 
   def percentage_ties
-    require "pry"; binding.pry
     (@games_mngr.total_ties / @games_mngr.total_games.to_f).round(2)
   end
 
