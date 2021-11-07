@@ -112,7 +112,7 @@ class StatTracker
   end
 
   def seasons
-    @games.map {|game| game.season}.uniq
+    @games_mngr.games.map {|game| game.season}.uniq
   end
 
   def team_season_win_percentage(team_id, season)
@@ -145,14 +145,14 @@ class StatTracker
   end
 
   def average_win_percentage(team_id)
-    away_games = @games.find_all do |game|
+    away_games = @games_mngr.games.find_all do |game|
       team_id == game.away_team_id
     end
     away_game_wins = away_games.find_all do |game|
       game.away_goals > game.home_goals
     end.size
 
-    home_games = @games.find_all do |game|
+    home_games = @games_mngr.games.find_all do |game|
       team_id == game.home_team_id
     end
     home_game_wins = home_games.find_all do |game|
@@ -180,7 +180,7 @@ class StatTracker
     # iterates through games by opponent
     # count wins and losses, return win percentage
     # return opponent with lowest win percentage
-    games_with_team = @games.find_all{|game| game.home_team_id == team_id}
+    games_with_team = @games_mngr.games.find_all{|game| game.home_team_id == team_id}
     games_by_away_team = games_with_team.group_by{|game| game.away_team_id}
     opponent_win_percentages = Hash.new()
     games_by_away_team.each do |away_team_id, games|
@@ -246,7 +246,7 @@ class StatTracker
       accuracy_hash[team_id] = accuracy
     end
     max_team_id = accuracy_hash.max_by{|team_id, accuracy| accuracy}[0]
-    max_team = @teams.select{ |team| team.team_id == max_team_id}[0]
+    max_team = @teams_mngr.teams.select{ |team| team.team_id == max_team_id}[0]
     max_team_name = max_team.team_name
   end
 
@@ -259,7 +259,7 @@ class StatTracker
       accuracy_hash[team_id] = accuracy
     end
     min_team_id = accuracy_hash.min_by{|team_id, accuracy| accuracy}[0]
-    min_team = @teams.select{ |team| team.team_id == min_team_id}[0]
+    min_team = @teams_mngr.teams.select{ |team| team.team_id == min_team_id}[0]
     min_team_name = min_team.team_name
   end
 
@@ -276,23 +276,22 @@ class StatTracker
   def team_from_game_team(game_team)
     # get team id from selected game_team, and use this to gather the team name.
     team_id =  game_team.team_id
-    team = @teams.select{|team| team.team_id == team_id} #this can be faster with a hash
+    team = @teams_mngr.teams.select{|team| team.team_id == team_id} #this can be faster with a hash
     return team[0]
   end
 
   # return an array of team names from an array of team objects, or a single team name if only one given
   def teams_from_game_teams(game_teams)
     # if single team, return single value. Else return array of values.
-
     # get team ids from selected game_teams, and use this to gather the team names.
     team_ids =  game_teams.map { |game_team| game_team.team_id }
-    teams = @teams.select{ |team| team_ids.include?(team.team_id) } # this can be faster with a hash.
+    teams = @teams_mngr.teams.select{ |team| team_ids.include?(team.team_id) } # this can be faster with a hash.
     return teams
   end
 
   def most_tackles(season)
     most_team_id = total_tackles_by_id(season).max_by { |id , games_teams| games_teams }[0]
-    @teams.find_all { |team| team.team_id == most_team_id }[0].team_name
+    @teams_mngr.teams.find_all { |team| team.team_id == most_team_id }[0].team_name
   end
 
   def game_teams_by_id(season)
@@ -310,6 +309,6 @@ class StatTracker
 
   def fewest_tackles(season)
     fewest_team_id = total_tackles_by_id(season).min_by { |id , games_teams| games_teams }[0]
-    @teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
+    @teams_mngr.teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
   end
 end
