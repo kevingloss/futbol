@@ -1,5 +1,6 @@
 require 'csv'
 require_relative './teams'
+require_relative './statistics'
 
 class TeamsManager
   attr_reader :teams

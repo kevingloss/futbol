@@ -1,5 +1,6 @@
 require 'csv'
 require_relative './games'
+require_relative './statistics'
 
 class GamesManager
   attr_reader :games

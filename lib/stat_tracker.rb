@@ -2,6 +2,7 @@
 require_relative './teams_manager'
 require_relative './game_teams_manager'
 require_relative './games_manager'
+require_relative './statistics'
 
 class StatTracker
   attr_accessor :games_mngr, :teams_mngr, :gt_mngr
