@@ -4,18 +4,18 @@ SimpleCov.start
 require './lib/games.rb'
 require 'csv'
 
-RSpec.describe Games do
+RSpec.describe Game do
 
   before :each do
     @rows = CSV.read('./data/games.csv', headers: true)
     @row = @rows[0]
 
-    @game1 = Games.new(@row)
+    @game1 = Game.new(@row)
   end
 
   describe 'initialize' do
     it "exists" do
-      expect(@game1).to be_a(Games)
+      expect(@game1).to be_a(Game)
     end
 
     it "checks that all the attributes" do
@@ -30,5 +30,12 @@ RSpec.describe Games do
       expect(@game1.venue).to eq('Toyota Stadium')
       expect(@game1.venue_link).to eq('/api/v1/venues/null')
     end
+  end
+
+  describe ' #total_goals' do
+    it 'returns total of home and away goals' do
+      expect(@game1.total_goals).to eq(5)
+    end
+
   end
 end

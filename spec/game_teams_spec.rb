@@ -4,16 +4,16 @@ SimpleCov.start
 require './lib/game_teams'
 require 'csv'
 
-describe GameTeams do
+describe GameTeam do
   before(:each) do
     @rows = CSV.read('./data/game_teams.csv', headers: true)
     @row = @rows[0]
     # powerPlayGoals,faceOffWinPercentage,giveaways,takeaways
-    @game_team = GameTeams.new(@row)
+    @game_team = GameTeam.new(@row)
   end
   describe 'initialize' do
     it 'exists' do
-      expect(@game_team).to be_a(GameTeams)
+      expect(@game_team).to be_a(GameTeam)
     end
     it 'has attributes' do
       expect(@game_team.game_id).to eq('2012030221')
@@ -31,6 +31,18 @@ describe GameTeams do
       expect(@game_team.face_off_win_percentage).to eq(44.8)
       expect(@game_team.giveaways).to eq(17)
       expect(@game_team.takeaways).to eq(7)
+    end
+  end
+
+  describe '#home?' do
+    it 'returns true if team is home team and false otherwise' do
+      expect(@game_team.home?).to be(false)
+    end
+  end
+
+  describe '#win?' do
+    it 'returns true if team result was a win' do
+      expect(@game_team.win?).to be(false)
     end
   end
 end
