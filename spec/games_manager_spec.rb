@@ -45,40 +45,35 @@ describe GamesManager do
   end
   describe '#total_games' do
     it 'it returns total games won by visitors' do
-      @gmngr = GamesManager.new('./data/games_test.csv')
-
       actual = @gmngr.total_games
-      expected = 21
+      expected = 7441
       expect(actual).to eq(expected)
     end
   end
   describe '#total_visitor wins' do
     it 'it returns total games won by visitors' do
-      @gmngr = GamesManager.new('./data/games_test.csv')
       actual = @gmngr.total_visitor_wins
-      expected = 6
+      expected = 2687
       expect(actual).to eq(expected)
     end
   end
   describe '#total_home_wins' do
     it 'it returns total games won by visitors' do
-      @gmngr = GamesManager.new('./data/games_test.csv')
       actual = @gmngr.total_home_wins
-      expected = 9
+      expected = 3237
       expect(actual).to eq(expected)
     end
   end
   describe '#total_ties' do
     it 'it returns total games that have tied' do
-      @gmngr = GamesManager.new('./data/games_test.csv')
       actual = @gmngr.total_ties
-      expected = 6
+      expected = 1517
       expect(actual).to eq(expected)
     end
   end
 
   it "checks the helper method #" do
-    expect(@gmngr.games_by_season('20122013')).to be_an(Array)
+    expect(@gmngr.games_in_season('20122013')).to be_an(Array)
   end
 
   it 'returns an array of game ids for each input game' do
