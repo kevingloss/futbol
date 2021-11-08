@@ -205,11 +205,11 @@ class StatTracker
   end
 
   # accept an array of game teams and return a single accuracy score
-  def accuracy(game_teams)
-    total_goals = game_teams.map{|game_team| game_team.goals}.sum.to_f
-    total_shots = game_teams.map{|game_team| game_team.shots}.sum.to_f
-    accuracy = total_goals/total_shots
-  end
+  # def accuracy(game_teams)
+  #   total_goals = game_teams.map{|game_team| game_team.goals}.sum.to_f
+  #   total_shots = game_teams.map{|game_team| game_team.shots}.sum.to_f
+  #   accuracy = total_goals/total_shots
+  # end
 
   def most_accurate_team(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
@@ -223,17 +223,18 @@ class StatTracker
     @teams_mngr.find_team_name(team_id)
   end
 
-  def game_teams_by_games(games)
-    game_ids = @games_mngr.game_ids_in_games(games)
-    @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
-  end
+  # def game_teams_by_games(games)
+  #   game_ids = @games_mngr.game_ids_in_games(games)
+  #   @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
+  # end
   # helper method to collect all game_teams in a given season
-  def game_teams_in_season(season)
-    games_in_season = @games_mngr.games_in_season(season)
-    game_teams_in_season = game_teams_by_games(games_in_season)
-  end
+  # def game_teams_in_season(season)
+  #   games_in_season = @games_mngr.games_in_season(season)
+  #   game_teams_in_season = game_teams_by_games(games_in_season)
+  # end
 
   # return an array of team names from an array of team objects, or a single team name if only one given
+<<<<<<< HEAD
   def teams_from_game_teams(game_teams)
     # if single team, return single value. Else return array of values.
 
@@ -264,5 +265,26 @@ class StatTracker
   def fewest_tackles(season)
     fewest_team_id = total_tackles_by_id(season).min_by { |id , games_teams| games_teams }[0]
     @teams_mngr.teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
+=======
+  # def teams_from_game_teams(game_teams)
+  #   # if single team, return single value. Else return array of values.
+  #
+  #   # get team ids from selected game_teams, and use this to gather the team names.
+  #   team_ids =  game_teams.map { |game_team| game_team.team_id }
+  #   teams = @teams.select{ |team| team_ids.include?(team.team_id) } # this can be faster with a hash.
+  #   return teams
+  # end
+
+  def most_tackles(season)
+    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
+    team_id = @gt_mngr.tackles(game_ids).max_by {|team_id, tackles| tackles}.first
+    @teams_mngr.find_team_name(team_id)
+  end
+
+  def fewest_tackles(season)
+    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
+    team_id = @gt_mngr.tackles(game_ids).min_by {|team_id, tackles| tackles}.first
+    @teams_mngr.find_team_name(team_id)
+>>>>>>> 5bc16dbb3e67561fdeb4149c9a0c2b744e969d85
   end
 end

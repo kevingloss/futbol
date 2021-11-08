@@ -130,4 +130,12 @@ class GameTeamsManager
       (goals/shots.to_f).round(4)
     end
   end
+
+  def tackles(game_ids)
+    games = @game_teams.select {|game_team| game_ids.include?(game_team.game_id)}
+    games_by_team = games.group_by {|game| game.team_id}
+    games_by_team.transform_values do |game_teams|
+      game_teams.reduce(0) {|tackles, game_team| tackles + game_team.tackles}
+    end
+  end
 end

@@ -349,23 +349,23 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.worst_coach('20122013')).to eq("John Tortorella")
     end
   end
-  describe ' #accuracy' do
-    it 'accepts an array of game_teams and returns a single accuracy score' do
-      game_path = './data/games_test.csv'
-      team_path = './data/teams.csv'
-      game_teams_path = './data/game_teams_test.csv'
-
-      locations = {
-        games: game_path,
-        teams: team_path,
-        game_teams: game_teams_path
-      }
-
-      @stat_tracker = StatTracker.from_csv(locations)
-      game_teams1 = @stat_tracker.gt_mngr.game_teams[0..4]
-      expect(@stat_tracker.accuracy(game_teams1)).to eq(13.0/43.0)
-    end
-  end
+  # describe ' #accuracy' do
+  #   it 'accepts an array of game_teams and returns a single accuracy score' do
+  #     game_path = './data/games_test.csv'
+  #     team_path = './data/teams.csv'
+  #     game_teams_path = './data/game_teams_test.csv'
+  #
+  #     locations = {
+  #       games: game_path,
+  #       teams: team_path,
+  #       game_teams: game_teams_path
+  #     }
+  #
+  #     @stat_tracker = StatTracker.from_csv(locations)
+  #     game_teams1 = @stat_tracker.gt_mngr.game_teams[0..4]
+  #     expect(@stat_tracker.accuracy(game_teams1)).to eq(13.0/43.0)
+  #   end
+  # end
   describe ' #most_accurate_team' do
 
     it 'returns the name of the team with the best ratio of shots to goals for the season' do
@@ -414,6 +414,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.teams_from_game_teams(game_teams2)).to eq(teams2)
     end
   end
+
   describe ' #most_tackles' do
     it 'returns the name of the team with the most tackles in the season' do
       game_path = './data/games_test.csv'

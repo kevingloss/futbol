@@ -190,4 +190,11 @@ describe GameTeamsManager do
       expect(@gtmngr.team_accuracy(["2012030221", "2012030222", "2012030311"])).to eq(expected)
     end
   end
+
+  describe '#tackles' do
+    it 'returns a hash with the team id and most tackles' do
+      expected = {"3"=> 77, "5"=>34, "6"=>106}
+      expect(@gtmngr.tackles(["2012030221", "2012030222", "2012030311"])).to eq(expected)
+    end
+  end
 end
