@@ -130,7 +130,7 @@ class StatTracker
   end
   #this is going through the games and not game_teams where the wins are saved
   def team_games_by_season(team_id, season)
-    seasons_games = games_in_season(season)
+    seasons_games = @games_mngr.games_in_season(season)
     team_games_in_season = seasons_games.find_all do |game|
       game.away_team_id == team_id || game.home_team_id == team_id
     end
@@ -234,38 +234,6 @@ class StatTracker
   # end
 
   # return an array of team names from an array of team objects, or a single team name if only one given
-<<<<<<< HEAD
-  def teams_from_game_teams(game_teams)
-    # if single team, return single value. Else return array of values.
-
-    # get team ids from selected game_teams, and use this to gather the team names.
-    team_ids =  game_teams.map { |game_team| game_team.team_id }
-    teams = @teams_mngr.teams.select{ |team| team_ids.include?(team.team_id) } # this can be faster with a hash.
-    return teams
-  end
-
-  def most_tackles(season)
-    most_team_id = total_tackles_by_id(season).max_by { |id , games_teams| games_teams }[0]
-    @teams_mngr.teams.find_all { |team| team.team_id == most_team_id }[0].team_name
-  end
-
-  def game_teams_by_id(season)
-    game_teams_by_coach = game_teams_in_season(season).group_by { |game_teams| game_teams.team_id}
-  end
-
-  def total_tackles_by_id(season)
-    sum_tackles = Hash.new
-    game_teams_by_id(season).each do |team_id , games_teams|
-      total_tackles = games_teams.map { |game_team| game_team.tackles }.sum
-      sum_tackles[team_id] = total_tackles
-      end
-    sum_tackles
-  end
-
-  def fewest_tackles(season)
-    fewest_team_id = total_tackles_by_id(season).min_by { |id , games_teams| games_teams }[0]
-    @teams_mngr.teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
-=======
   # def teams_from_game_teams(game_teams)
   #   # if single team, return single value. Else return array of values.
   #
@@ -285,6 +253,5 @@ class StatTracker
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
     team_id = @gt_mngr.tackles(game_ids).min_by {|team_id, tackles| tackles}.first
     @teams_mngr.find_team_name(team_id)
->>>>>>> 5bc16dbb3e67561fdeb4149c9a0c2b744e969d85
   end
 end

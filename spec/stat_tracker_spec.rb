@@ -217,7 +217,7 @@ RSpec.describe StatTracker do
   end
 
   describe '#team_games_by_season' do
-    it 'returns all games played in a season for a given team' do
+    xit 'returns all games played in a season for a given team' do
       expected = [@stat_tracker.games_mngr.games[18]]
       expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
     end
