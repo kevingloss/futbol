@@ -18,6 +18,21 @@ describe TeamsManager do
       expect(@tmngr.teams[0]).to be_an_instance_of(Team)
       expect(@tmngr.teams.count).to eq(32)
     end
+
+    it 'initializes correctly from a single Team' do
+      team = @tmngr.teams[0]
+      tmngr1 = TeamsManager.new(team)
+      expect(tmngr1).to be_a(TeamsManager)
+      expect(tmngr1.teams).to be_a(Array)
+      expect(tmngr1.teams[0]).to be_a(Team)
+    end
+    it 'initializes correctly from an array of Teams' do
+      teams = @tmngr.teams[0..5]
+      tmngr1 = TeamsManager.new(teams)
+      expect(tmngr1).to be_a(TeamsManager)
+      expect(tmngr1.teams).to be_a(Array)
+      expect(tmngr1.teams[0]).to be_a(Team)
+    end
   end
 
   describe '#count_of_teams' do

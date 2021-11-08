@@ -13,7 +13,6 @@ class GamesManager
     else
       @games = games
     end
-    # require 'pry'; binding.pry
   end
 
   def self.from_csv(games_data)
