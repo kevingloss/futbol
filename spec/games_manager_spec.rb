@@ -78,7 +78,7 @@ describe GamesManager do
   end
 
   it "checks the helper method #" do
-    expect(@gmngr.games_in_season('20122013')).to be_an(Array)
+    expect(@gmngr.games_by_season('20122013')).to be_an(Array)
   end
 
   it 'returns an array of game ids for each input game' do
