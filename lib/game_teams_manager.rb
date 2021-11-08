@@ -119,11 +119,8 @@ class GameTeamsManager
   end
 
   def team_accuracy(game_ids)
-    # selects all of the games in a season
     games = @game_teams.select {|game_team| game_ids.include?(game_team.game_id)}
-    #groups them by team
     games_by_team = games.group_by {|game| game.team_id}
-    # update values to accuracy
     team_accuracy = games_by_team.transform_values do |game_teams|
       goals = game_teams.reduce(0) {|goals, game_team| goals + game_team.goals}
       shots = game_teams.reduce(0) {|shots, game_team| shots + game_team.shots}
@@ -136,6 +133,14 @@ class GameTeamsManager
     games_by_team = games.group_by {|game| game.team_id}
     games_by_team.transform_values do |game_teams|
       game_teams.reduce(0) {|tackles, game_team| tackles + game_team.tackles}
+    end
+  end
+
+  def percentage_wins_by_coach(game_ids)
+    games = @game_teams.select {|game_team| game_ids.include?(game_team.game_id)}
+    games_by_coach = games.group_by {|game| game.head_coach}
+    win_percentage = games_by_coach.transform_values do |game_teams|
+      (game_teams.count {|game| game.win?} / game_teams.count.to_f).round(2)
     end
   end
 end
