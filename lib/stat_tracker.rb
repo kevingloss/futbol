@@ -136,7 +136,7 @@ class StatTracker
     games_with_team_by_season.each do |season, games|
       game_teams = game_teams_by_games(games)
       win_percentage = @gt_mngr.average_win_percentage(team_id, game_teams)
-      game_teams_by_season[season] = win_percentage
+      win_percentage_by_season[season] = win_percentage
     end
     win_percentage_by_season
   end
