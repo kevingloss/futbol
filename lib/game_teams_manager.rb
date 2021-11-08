@@ -7,7 +7,12 @@ class GameTeamsManager
   attr_reader :game_teams
 
   def initialize(game_teams)
-    @game_teams = game_teams
+    @game_teams = []
+    if game_teams.class != Array
+      @game_teams << game_teams
+    else
+      @game_teams = game_teams
+    end
   end
 
   def self.from_csv(game_teams_data)

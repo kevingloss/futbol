@@ -18,6 +18,21 @@ describe GameTeamsManager do
       expect(@gtmngr.game_teams[0]).to be_an_instance_of(GameTeam)
       expect(@gtmngr.game_teams.count).to eq(14882)
     end
+
+    it 'initializes correctly from a single GameTeam' do
+      game_team = @gtmngr.game_teams[0]
+      gtmngr1 = GameTeamsManager.new(game_team)
+      expect(gtmngr1).to be_a(GameTeamsManager)
+      expect(gtmngr1.game_teams).to be_a(Array)
+      expect(gtmngr1.game_teams[0]).to be_a(GameTeam)
+    end
+    it 'initializes correctly from an array of GameTeams' do
+      game_teams = @gtmngr.game_teams[0..5]
+      gtmngr1 = GameTeamsManager.new(game_teams)
+      expect(gtmngr1).to be_a(GameTeamsManager)
+      expect(gtmngr1.game_teams).to be_a(Array)
+      expect(gtmngr1.game_teams[0]).to be_a(GameTeam)
+    end
   end
 
   describe '#best_offense' do
