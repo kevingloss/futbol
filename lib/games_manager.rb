@@ -95,6 +95,11 @@ class GamesManager
     GamesManager.new(games)
   end
 
+  def games_with_any_team_id(team_id)
+    games = @games.find_all{|game| game.home_team_id == team_id || game.away_team_id == team_id}
+    GamesManager.new(games)
+  end
+
   def games_by_away_team_id
     games_by_away_team_id = @games.group_by{|game| game.away_team_id}
     game_mngr_by_away_team_id = Hash.new()
@@ -110,5 +115,9 @@ class GamesManager
 
   def game_ids_in_game_mngr
     game_ids_in_games = @games.map { |game| game.game_id }
+  end
+
+  def seasons
+    @games.map {|game| game.season}.uniq
   end
 end

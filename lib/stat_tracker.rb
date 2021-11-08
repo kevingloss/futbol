@@ -117,14 +117,24 @@ class StatTracker
   end
 
   def best_season(team_id)
-    seasons.max_by do |season|
+    @games_mngr.seasons.max_by do |season|
       team_season_win_percentage(team_id, season) #pass in two arguments and include the season?
     end
   end
 
-  def seasons
-    @games.map {|game| game.season}.uniq
+  def best_season_mngr(team_id)
+    # get all games of team
+    # create games_manager objects by season
+    # analyze win percentage of each season
+    # return best
+    games_with_team = @games_mngr.games_with_home_team_id(team_id)
+
+
+    @games_mngr.seasons.max_by do |season|
+      team_season_win_percentage(team_id, season) #pass in two arguments and include the season?
+    end
   end
+
 
   def team_season_win_percentage(team_id, season)
     # return 0 if team_games_by_season(team_id, season).count == 0
@@ -144,16 +154,11 @@ class StatTracker
   #this method was just searching all the game_teams originally, need to limit it
   #changed to Leland's helper method to sort by games in season
   def season_wins(team_id, season)
-    game_teams_in_season(season).find_all do |game_team|
-    # @game_teams
-      game_team.team_id == team_id && game_team.result == "WIN"
-    end
+    game_teams_in_season(season).find_all {|game_team| game_team.team_id == team_id && game_team.result == "WIN"}
   end
 
   def worst_season(team_id)
-    seasons.min_by do |season|
-      team_season_win_percentage(team_id, season)
-    end
+    @games_mngr.seasons.min_by {|season|team_season_win_percentage(team_id, season)}
   end
 
   def average_win_percentage(team_id)
@@ -187,7 +192,7 @@ class StatTracker
 
   #given a team_id, return a hash of the win percentages of all opponents
   def opponent_win_percentages(home_team_id)
-    games_with_team = @games_mngr.games_with_home_team_id(home_team_id)
+    games_with_team = @games_mngr.games_with_any_team_id(home_team_id)
     game_teams_of_games = @gt_mngr.game_teams_with_game_ids(games_with_team.game_ids_in_game_mngr)
     game_teams_of_opponents = game_teams_of_games.remove_team(home_team_id)
     game_teams_by_team_id = game_teams_of_opponents.game_teams_mngr_by_team_id
