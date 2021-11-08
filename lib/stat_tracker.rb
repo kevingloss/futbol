@@ -188,14 +188,13 @@ class StatTracker
   #given a team_id, return a hash of the win percentages of all opponents
   def opponent_win_percentages(home_team_id)
     games_with_team = @games_mngr.games_with_home_team_id(home_team_id)
-    game_teams_of_games = @gt_mngr.game_teams_with_game_ids(games_with_team.game_ids_in_games)
-    game_teams_of_opponents = game_teams_of_games.remove(home_team_id)
-    game_teams_by_team_id = game_teams_of_opponents.game_teams_by_team_id
+    game_teams_of_games = @gt_mngr.game_teams_with_game_ids(games_with_team.game_ids_in_game_mngr)
+    game_teams_of_opponents = game_teams_of_games.remove_team(home_team_id)
+    game_teams_by_team_id = game_teams_of_opponents.game_teams_mngr_by_team_id
     opponent_win_percentages = Hash.new()
     game_teams_by_team_id.each do |team_id, gt_mngr|
       opponent_win_percentages[team_id] = gt_mngr.average_win_percentage(team_id)
     end
-    require "pry"; binding.pry
     opponent_win_percentages
   end
 
