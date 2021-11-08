@@ -18,6 +18,20 @@ describe GamesManager do
       expect(@gmngr.games[0]).to be_an_instance_of(Game)
       expect(@gmngr.games.count).to eq(7441)
     end
+    it 'initializes correctly from a single Game' do
+      game = @gmngr.games[0]
+      gmngr1 = GamesManager.new(game)
+      expect(gmngr1).to be_a(GamesManager)
+      expect(gmngr1.games).to be_a(Array)
+      expect(gmngr1.games[0]).to be_a(Game)
+    end
+    it 'initializes correctly from an array of Games' do
+      games = @gmngr.games[0..5]
+      gmngr1 = GamesManager.new(games)
+      expect(gmngr1).to be_a(GamesManager)
+      expect(gmngr1.games).to be_a(Array)
+      expect(gmngr1.games[0]).to be_a(Game)
+    end
   end
 
   describe ' #games_by_season' do
