@@ -2,16 +2,18 @@
 require_relative './teams_manager'
 require_relative './game_teams_manager'
 require_relative './games_manager'
+require_relative './seasons'
 require_relative './statistics'
 
 class StatTracker
   include Statistics
-  attr_accessor :games_mngr, :teams_mngr, :gt_mngr
+  attr_accessor :games_mngr, :teams_mngr, :gt_mngr #:season
 
   def initialize(locations)
     @games_mngr = GamesManager.from_csv(locations[:games])
     @teams_mngr = TeamsManager.from_csv(locations[:teams])
     @gt_mngr = GameTeamsManager.from_csv(locations[:game_teams])
+    # @season = Season.from_csv(locations[:season])
   end
 
   def self.from_csv(locations)
@@ -261,16 +263,6 @@ class StatTracker
     min_team_id = accuracy_hash.min_by{|team_id, accuracy| accuracy}[0]
     min_team = @teams_mngr.teams.select{ |team| team.team_id == min_team_id}[0]
     min_team_name = min_team.team_name
-  end
-
-  def game_teams_by_games(games)
-    game_ids = @games_mngr.game_ids_in_games(games)
-    @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
-  end
-  # helper method to collect all game_teams in a given season
-  def game_teams_in_season(season)
-    games_in_season = @games_mngr.games_in_season(season)
-    game_teams_in_season = game_teams_by_games(games_in_season)
   end
 
   def team_from_game_team(game_team)

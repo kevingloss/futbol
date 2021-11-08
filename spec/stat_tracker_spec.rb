@@ -405,31 +405,6 @@ RSpec.describe StatTracker do
     expect(@stat_tracker.least_accurate_team('20122013')).to eq('Houston Dynamo')
     end
   end
-
-  describe ' #game_teams_by_games' do
-    it 'returns all game_teams associated with multiple input games' do
-      games2 = @stat_tracker.games_mngr
-      game_teams2 = @stat_tracker.gt_mngr
-      expect(@stat_tracker.gt_mngr).to eq(game_teams2)
-    end
-  end
-  describe ' #game_teams_in_season' do
-    it 'returns an array of all of the game_teams that are a part of the selected season' do
-      game_path = './data/games_test.csv'
-      team_path = './data/teams.csv'
-      game_teams_path = './data/game_teams_test.csv'
-
-      locations = {
-        games: game_path,
-        teams: team_path,
-        game_teams: game_teams_path
-      }
-
-      @stat_tracker = StatTracker.from_csv(locations)
-      expect(@stat_tracker.game_teams_in_season('20122013')).to be_a(Array)
-      expect(@stat_tracker.game_teams_in_season('20122013').length).to eq(4)
-    end
-  end
   describe 'team_from_game_team' do
     it 'returns a single team name for a single game_team given' do
       game_team1 = @stat_tracker.gt_mngr.game_teams[0]
