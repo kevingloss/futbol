@@ -277,13 +277,6 @@ class StatTracker
     game_teams_in_season = game_teams_by_games(games_in_season)
   end
 
-  def team_from_game_team(game_team)
-    # get team id from selected game_team, and use this to gather the team name.
-    team_id =  game_team.team_id
-    team = @teams.select{|team| team.team_id == team_id} #this can be faster with a hash
-    return team[0]
-  end
-
   # return an array of team names from an array of team objects, or a single team name if only one given
   def teams_from_game_teams(game_teams)
     # if single team, return single value. Else return array of values.
