@@ -216,23 +216,23 @@ RSpec.describe StatTracker do
     end
   end
 
-  describe '#team_games_by_season' do
-    it 'returns all games played in a season for a given team' do
-      game_path = './data/games_test.csv'
-      team_path = './data/teams.csv'
-      game_teams_path = './data/game_teams_test.csv'
-
-      locations = {
-        games: game_path,
-        teams: team_path,
-        game_teams: game_teams_path
-      }
-
-      @stat_tracker = StatTracker.from_csv(locations)
-      expected = [@stat_tracker.games_mngr.games[18]]
-      expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
-    end
-  end
+  # describe '#team_games_by_season' do
+  #   it 'returns all games played in a season for a given team' do
+  #     game_path = './data/games_test.csv'
+  #     team_path = './data/teams.csv'
+  #     game_teams_path = './data/game_teams_test.csv'
+  #
+  #     locations = {
+  #       games: game_path,
+  #       teams: team_path,
+  #       game_teams: game_teams_path
+  #     }
+  #
+  #     @stat_tracker = StatTracker.from_csv(locations)
+  #     expected = [@stat_tracker.games_mngr.games[18]]
+  #     expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
+  #   end
+  # end
 
   describe '#best_season' do
     it 'returns the season with the highest win percentage for a team' do
@@ -370,13 +370,13 @@ RSpec.describe StatTracker do
 
   describe ' #game_teams_by_games' do
     it 'returns all game_teams associated with multiple input games' do
-      games2 = @stat_tracker.games_mngr
-      game_teams2 = @stat_tracker.gt_mngr
-      expect(@stat_tracker.gt_mngr).to eq(game_teams2)
+      games = @stat_tracker.games_mngr.games[0..1]
+      game_teams2 = @stat_tracker.gt_mngr.game_teams[0..3]
+      expect(@stat_tracker.game_teams_by_games(games)).to eq(game_teams2)
     end
   end
   describe ' #game_teams_in_season' do
-    xit 'returns an array of all of the game_teams that are a part of the selected season' do
+    it 'returns an array of all of the game_teams that are a part of the selected season' do
       game_path = './data/games_test.csv'
       team_path = './data/teams.csv'
       game_teams_path = './data/game_teams_test.csv'
