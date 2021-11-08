@@ -217,7 +217,18 @@ RSpec.describe StatTracker do
   end
 
   describe '#team_games_by_season' do
-    xit 'returns all games played in a season for a given team' do
+    it 'returns all games played in a season for a given team' do
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
       expected = [@stat_tracker.games_mngr.games[18]]
       expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
     end
@@ -294,28 +305,6 @@ RSpec.describe StatTracker do
   end
   ### Season
   describe '#winningest_coach' do
-
-    it "gets the total games played by coaches" do
-      expect(@stat_tracker.game_teams_by_coaches('20122013')).to be_an(Hash)
-
-    end
-    it "finds the average of the coach" do
-        game_path = './data/games_test.csv'
-        team_path = './data/teams.csv'
-        game_teams_path = './data/game_teams_test.csv'
-
-        locations = {
-          games: game_path,
-          teams: team_path,
-          game_teams: game_teams_path
-        }
-
-        @stat_tracker = StatTracker.from_csv(locations)
-
-      expect(@stat_tracker.average_wins_by_coach('20122013')).to be_an(Hash)
-      expect(@stat_tracker.average_wins_by_coach('20122013')).to eq({"Claude Julien"=>1, "John Tortorella"=>0})
-    end
-
     it 'Name of the Coach with the best win percentage for the season' do
       game_path = './data/games_test.csv'
       team_path = './data/teams.csv'
@@ -387,7 +376,7 @@ RSpec.describe StatTracker do
     end
   end
   describe ' #game_teams_in_season' do
-    it 'returns an array of all of the game_teams that are a part of the selected season' do
+    xit 'returns an array of all of the game_teams that are a part of the selected season' do
       game_path = './data/games_test.csv'
       team_path = './data/teams.csv'
       game_teams_path = './data/game_teams_test.csv'
@@ -401,17 +390,6 @@ RSpec.describe StatTracker do
       @stat_tracker = StatTracker.from_csv(locations)
       expect(@stat_tracker.game_teams_in_season('20122013')).to be_a(Array)
       expect(@stat_tracker.game_teams_in_season('20122013').length).to eq(4)
-    end
-  end
-
-  describe 'teams_from_game_teams' do
-    it 'returns an array of teams for an array of game_team objects' do
-      game_team1 = @stat_tracker.gt_mngr.game_teams[0]
-      team1 = @stat_tracker.teams_mngr.teams[5]
-      game_teams2 = @stat_tracker.gt_mngr.game_teams[0..3]
-      teams2 = [@stat_tracker.teams_mngr.teams[4], @stat_tracker.teams_mngr.teams[5]]
-      expect(@stat_tracker.teams_from_game_teams([game_team1])).to eq([team1])
-      expect(@stat_tracker.teams_from_game_teams(game_teams2)).to eq(teams2)
     end
   end
 
