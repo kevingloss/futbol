@@ -7,5 +7,10 @@
 # end
 
 module Statistics
-
+  # def win_percentage(wins, losses, ties)
+  #   win_percentage = (wins + 0.5 * ties)/ (wins + losses + 0.5 * ties)
+  # end
+  def win_percentage(wins, losses)
+    win_percentage = (wins)/ (wins + losses)
+  end
 end

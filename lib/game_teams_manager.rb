@@ -36,8 +36,26 @@ class GameTeamsManager
     @game_teams.group_by {|game_team| game_team.team_id}
   end
 
+  def game_teams_mngr_by_team_id
+    game_teams = @game_teams.group_by {|game_team| game_team.team_id}
+    gt_mngr_by_teams = Hash.new()
+    game_teams.each do |team_id, game_teams|
+      gt_mngr_by_teams[team_id] = GameTeamsManager.new(game_teams)
+    end
+    gt_mngr_by_teams
+  end
+
   def games_by_team(team_games = @game_teams)
     team_games.group_by {|game_team| game_team.team_id}
+  end
+
+  def remove_team(team_id)
+    @game_teams.reject!{|game_team| game_team.team_id == team_id}
+  end
+
+  def game_teams_with_game_ids(game_ids)
+    game_teams = @game_teams.select{|game_team| game_ids.include?(game_team.game_id)}
+    gt_mngr = GameTeamsManager.new(game_teams)
   end
 
   def total_games(game_teams)

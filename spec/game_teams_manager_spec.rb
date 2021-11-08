@@ -39,15 +39,12 @@ describe GameTeamsManager do
     end
   end
 
-  describe ' #game_teams_by_team_id' do
+  describe ' #game_teams_mngr_by_team_id' do
     it 'creates a hash' do
-      expect(@gtmngr.game_teams_by_team_id.class).to be(Hash)
+      expect(@gtmngr.game_teams_mngr_by_team_id.class).to be(Hash)
     end
-    it 'creates a hash with an array for every value' do
-      expect(@gtmngr.game_teams_by_team_id.values.all?{|value| value.class == Array}).to eq(true)
-    end
-    it 'creates a hash with an array of GameTeam objects' do
-      expect(@gtmngr.game_teams_by_team_id.values.flatten.all?{|value| value.class == GameTeam}).to eq(true)
+    it 'creates a hash with an GameTeamsManager object for every value' do
+      expect(@gtmngr.game_teams_mngr_by_team_id.values.all?{|value| value.class == GameTeamsManager}).to eq(true)
     end
   end
 
@@ -55,6 +52,30 @@ describe GameTeamsManager do
     it 'creates a hash sorted by team id and giving all game_team objects' do
       argument = [@gtmngr.game_teams[0], @gtmngr.game_teams[1]]
       expect(@gtmngr.games_by_team(argument).class).to be(Hash)
+    end
+  end
+
+  describe ' #remove_team' do
+    it 'removes game_teams that meet given Id from game_team_manager' do
+      @game_ids = ['2012030221', '2012030222']
+      @gt_mngr2 = @gtmngr.game_teams_with_game_ids(@game_ids)
+      expect(@gt_mngr2.game_teams.length).to eq(4)
+      @gt_mngr2.remove_team('3')
+      expect(@gt_mngr2.game_teams.length).to eq(2)
+    end
+  end
+
+  describe ' #game_teams_with_game_ids' do
+    before(:each) do
+      @game_ids = ['2012030221', '2012030222']
+      @gt_mngr2 = @gtmngr.game_teams_with_game_ids(@game_ids)
+    end
+
+    it 'returns a GameTeamsManager object' do
+      expect(@gt_mngr2).to be_a(GameTeamsManager)
+    end
+    it 'returns a GameTeamsManager object with an array of GameTeams objects' do
+      expect(@gt_mngr2.game_teams.all?{|game_team| game_team.class == GameTeam}).to be(true)
     end
   end
 
