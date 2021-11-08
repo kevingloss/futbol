@@ -56,6 +56,11 @@ describe GameTeamsManager do
   end
 
   describe ' #remove_team' do
+    it 'returns an updated GameTeamsManager' do
+      @game_ids = ['2012030221', '2012030222']
+      @gt_mngr2 = @gtmngr.game_teams_with_game_ids(@game_ids)
+      expect(@gt_mngr2.remove_team('3')).to be_a(GameTeamsManager)
+    end
     it 'removes game_teams that meet given Id from game_team_manager' do
       @game_ids = ['2012030221', '2012030222']
       @gt_mngr2 = @gtmngr.game_teams_with_game_ids(@game_ids)

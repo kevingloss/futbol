@@ -51,6 +51,7 @@ class GameTeamsManager
 
   def remove_team(team_id)
     @game_teams.reject!{|game_team| game_team.team_id == team_id}
+    return self
   end
 
   def game_teams_with_game_ids(game_ids)
