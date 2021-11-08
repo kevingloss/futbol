@@ -131,12 +131,11 @@ class StatTracker
   end
 
   def win_percentage_by_season(team_id)
-    games_with_team = @games_mngr.games_with_any_team_id(team_id)
-    games_with_team_by_season = @games_mngr.games_by_season(games_with_team)
+    games_with_team_by_season = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
     win_percentage_by_season = Hash.new
     games_with_team_by_season.each do |season, games|
       game_teams = game_teams_by_games(games)
-      win_percentage = average_win_percentage(team_id, game_teams)
+      win_percentage = @gt_mngr.average_win_percentage(team_id, game_teams)
       game_teams_by_season[season] = win_percentage
     end
     win_percentage_by_season
