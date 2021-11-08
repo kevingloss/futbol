@@ -27,7 +27,6 @@ class StatTracker
     @games_mngr.lowest_total_score
   end
 
-
   def percentage_visitor_wins
     (@games_mngr.total_visitor_wins / @games_mngr.total_games.to_f).round(2)
   end
@@ -39,18 +38,15 @@ class StatTracker
   def percentage_ties
     (@games_mngr.total_ties / @games_mngr.total_games.to_f).round(2)
   end
-
   # A hash with season names (e.g. 20122013) as keys and counts of games as values
   def count_of_games_by_season
     count_of_games_by_season = @games_mngr.count_of_games_by_season
   end
-
   # Average number of goals scored in a game across all seasons including
   # both home and away goals (rounded to the nearest 100th) - float
   def average_goals_per_game
     avg_goals_per_game = @games_mngr.average_goals_per_game
   end
-
   # Average number of goals scored in a game organized in a hash
   # with season names (e.g. 20122013) as keys and a float
   # representing the average number of goals in a game for that season
@@ -65,12 +61,10 @@ class StatTracker
     end
     return avg_goals_by_season
   end
-
   # League Statistics
   def count_of_teams
     @teams_mngr.count_of_teams
   end
-
   # Methods between lines 123 & 150 are used with best_offense/worst_offense
   # calculating goals across all seasons for a team
 # best offense will need:
@@ -78,7 +72,6 @@ class StatTracker
   # average goals scored per game
     #total goals scored per game / total games played
   #could use a hash and do team_id => game_teams array
-
   #would only call game_teams_mng then team_mngr for team name from id #
   def best_offense
     @teams_mngr.find_team_name(@gt_mngr.best_offense)
@@ -87,7 +80,6 @@ class StatTracker
   def worst_offense
     @teams_mngr.find_team_name(@gt_mngr.worst_offense)
   end
-
   #Lines 153 to 200 use these methods to find teh highest/lowest scoring teams
   #based on being the home or away team
   def highest_scoring_visitor
@@ -105,15 +97,13 @@ class StatTracker
   def lowest_scoring_home_team
     @teams_mngr.find_team_name(@gt_mngr.lowest_scoring_home_team)
   end
-
-
   #Team Statistics
   def team_info(team_id)
     @teams_mngr.team_info(team_id)
   end
 
   def find_team(team_id)
-    @teams.find {|team| team.team_id == team_id}
+    @teams_mngr.teams.find {|team| team.team_id == team_id}
   end
 
   def best_season(team_id)
@@ -128,21 +118,16 @@ class StatTracker
     # analyze win percentage of each season
     # return best
     games_with_team = @games_mngr.games_with_home_team_id(team_id)
-
-
     @games_mngr.seasons.max_by do |season|
       team_season_win_percentage(team_id, season) #pass in two arguments and include the season?
     end
   end
 
-
   def team_season_win_percentage(team_id, season)
     # return 0 if team_games_by_season(team_id, season).count == 0
-
     #this line is returning an infinity when there are zero games in a season
     season_wins(team_id, season).count/team_games_by_season(team_id, season).count.to_f
   end
-
   #this is going through the games and not game_teams where the wins are saved
   def team_games_by_season(team_id, season)
     seasons_games = games_in_season(season)
@@ -150,7 +135,6 @@ class StatTracker
       game.away_team_id == team_id || game.home_team_id == team_id
     end
   end
-
   #this method was just searching all the game_teams originally, need to limit it
   #changed to Leland's helper method to sort by games in season
   def season_wins(team_id, season)
@@ -162,23 +146,8 @@ class StatTracker
   end
 
   def average_win_percentage(team_id)
-    away_games = @games.find_all do |game|
-      team_id == game.away_team_id
-    end
-    away_game_wins = away_games.find_all do |game|
-      game.away_goals > game.home_goals
-    end.size
-
-    home_games = @games.find_all do |game|
-      team_id == game.home_team_id
-    end
-    home_game_wins = home_games.find_all do |game|
-      game.away_goals < game.home_goals
-    end.size
-    percentage = (away_game_wins + home_game_wins).to_f / (away_games.size + home_games.size).to_f
-    percentage.round(2)
+    @gt_mngr.average_win_percentage(team_id)
   end
-
   # Highest number of goals a particular team has scored in a single game.
   def most_goals_scored(team_id)
     goals_by_team_id = @gt_mngr.goals_by_team_id
@@ -189,7 +158,6 @@ class StatTracker
     goals_by_team_id = @gt_mngr.goals_by_team_id
     min_goals_by_team = goals_by_team_id[team_id].min
   end
-
   #given a team_id, return a hash of the win percentages of all opponents
   def opponent_win_percentages(home_team_id)
     games_with_team = @games_mngr.games_with_any_team_id(home_team_id)
@@ -271,13 +239,13 @@ class StatTracker
 
     # get team ids from selected game_teams, and use this to gather the team names.
     team_ids =  game_teams.map { |game_team| game_team.team_id }
-    teams = @teams.select{ |team| team_ids.include?(team.team_id) } # this can be faster with a hash.
+    teams = @teams_mngr.teams.select{ |team| team_ids.include?(team.team_id) } # this can be faster with a hash.
     return teams
   end
 
   def most_tackles(season)
     most_team_id = total_tackles_by_id(season).max_by { |id , games_teams| games_teams }[0]
-    @teams.find_all { |team| team.team_id == most_team_id }[0].team_name
+    @teams_mngr.teams.find_all { |team| team.team_id == most_team_id }[0].team_name
   end
 
   def game_teams_by_id(season)
@@ -295,6 +263,6 @@ class StatTracker
 
   def fewest_tackles(season)
     fewest_team_id = total_tackles_by_id(season).min_by { |id , games_teams| games_teams }[0]
-    @teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
+    @teams_mngr.teams.find_all { |team| team.team_id == fewest_team_id }[0].team_name
   end
 end
