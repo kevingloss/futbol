@@ -217,26 +217,9 @@ RSpec.describe StatTracker do
   end
 
   describe '#team_games_by_season' do
-    xit 'returns all games played in a season for a given team' do
+    it 'returns all games played in a season for a given team' do
       expected = [@stat_tracker.games_mngr.games[18]]
       expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
-    end
-  end
-
-  describe '#seasons' do
-    xit 'returns all the seasons games have been played' do
-      game_path = './data/games_test.csv'
-      team_path = './data/teams.csv'
-      game_teams_path = './data/game_teams_test.csv'
-
-      locations = {
-        games: game_path,
-        teams: team_path,
-        game_teams: game_teams_path
-      }
-
-      @stat_tracker = StatTracker.from_csv(locations)
-      expect(@stat_tracker.seasons).to eq(["20122013", "20142015"])
     end
   end
 
