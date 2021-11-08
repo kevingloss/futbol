@@ -188,8 +188,26 @@ describe GameTeamsManager do
 
   describe '#team_accuracy' do
     it 'returns a hash with the team id and accuracy' do
-      expected = {"3"=>0.1176, "5"=>0.0, "6"=>0.1111}
+      game_path = './data/games_test.csv'
+      team_path = './data/teams.csv'
+      game_teams_path = './data/game_teams_test.csv'
+
+      locations = {
+        games: game_path,
+        teams: team_path,
+        game_teams: game_teams_path
+      }
+
+      @stat_tracker = StatTracker.from_csv(locations)
+      expected = {"3"=>0.2353, "5"=>0.0, "6"=>0.3333}
       expect(@gtmngr.team_accuracy(["2012030221", "2012030222", "2012030311"])).to eq(expected)
+    end
+  end
+
+  describe '#tackles' do
+    it 'returns a hash with the team id and most tackles' do
+      expected = {"3"=> 77, "5"=>34, "6"=>106}
+      expect(@gtmngr.tackles(["2012030221", "2012030222", "2012030311"])).to eq(expected)
     end
   end
 end
