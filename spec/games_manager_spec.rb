@@ -84,15 +84,29 @@ describe GamesManager do
       expect(new_gmngr1.games_with_home_team_id('6').games).to eq(team_6_games)
     end
   end
-
-  it "checks the helper method #" do
-    expect(@gmngr.games_in_season('20122013')).to be_an(Array)
+  describe ' #games_in_season' do
+    it "checks the helper method #" do
+      expect(@gmngr.games_in_season('20122013')).to be_an(Array)
+    end
   end
 
-  it 'returns an array of game ids for each input game' do
-    game1 = @gmngr.games[0]
-    games2 = @gmngr.games[0..2]
-    expect(@gmngr.game_ids_in_games([game1])).to eq(['2012030221'])
-    expect(@gmngr.game_ids_in_games(games2)).to eq(['2012030221','2012030222','2012030223'])
+  describe ' #game_ids_in_games' do
+    it 'returns an array of game ids for each input game' do
+      game1 = @gmngr.games[0]
+      games2 = @gmngr.games[0..2]
+      expect(@gmngr.game_ids_in_games([game1])).to eq(['2012030221'])
+      expect(@gmngr.game_ids_in_games(games2)).to eq(['2012030221','2012030222','2012030223'])
+    end
+  end
+
+  describe ' #game_ids_in_game_' do
+    it 'returns an array of game ids for each input game' do
+      game1 = @gmngr.games[0]
+      games2 = @gmngr.games[0..2]
+      gmngr1 = GamesManager.new(game1)
+      gmngr2 = GamesManager.new(games2)
+      expect(gmngr1.game_ids_in_game_mngr).to eq(['2012030221'])
+      expect(gmngr2.game_ids_in_game_mngr).to eq(['2012030221','2012030222','2012030223'])
+    end
   end
 end

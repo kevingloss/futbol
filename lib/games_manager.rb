@@ -7,7 +7,12 @@ class GamesManager
   attr_reader :games
 
   def initialize(games)
-    @games = games
+    @games = []
+    if games.class != Array
+      @games << games
+    else
+      @games = games
+    end
     # require 'pry'; binding.pry
   end
 
@@ -102,5 +107,9 @@ class GamesManager
 
   def game_ids_in_games(games)
     game_ids_in_games = games.map { |game| game.game_id }
+  end
+
+  def game_ids_in_game_mngr
+    game_ids_in_games = @games.map { |game| game.game_id }
   end
 end
