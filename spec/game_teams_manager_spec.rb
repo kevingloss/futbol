@@ -131,4 +131,11 @@ describe GameTeamsManager do
       expect(@gtmngr.goals_by_team_id.values.flatten.all?{|value| value.class == Integer}).to eq(true)
     end
   end
+
+  describe '#team_accuracy' do
+    it 'returns a hash with the team id and accuracy' do
+      expected = {"3"=>0.1176, "5"=>0.0, "6"=>0.1111}
+      expect(@gtmngr.team_accuracy(["2012030221", "2012030222", "2012030311"])).to eq(expected)
+    end
+  end
 end
