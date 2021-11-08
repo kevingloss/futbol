@@ -93,4 +93,17 @@ class GameTeamsManager
     end
     goals_by_team_id
   end
+
+  def team_accuracy(game_ids)
+    # selects all of the games in a season
+    games = @game_teams.select {|game_team| game_ids.include?(game_team.game_id)}
+    #groups them by team
+    games_by_team = games.group_by {|game| game.team_id}
+    # update values to accuracy
+    team_accuracy = games_by_team.transform_values do |game_teams|
+      goals = game_teams.reduce(0) {|goals, game_team| goals + game_team.goals}
+      shots = game_teams.reduce(0) {|shots, game_team| shots + game_team.shots}
+      (goals/shots.to_f).round(4)
+    end
+  end
 end
