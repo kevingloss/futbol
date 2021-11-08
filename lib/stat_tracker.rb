@@ -200,12 +200,14 @@ class StatTracker
 
   def favorite_opponent(home_team_id)
     opponent_win_percentages = opponent_win_percentages(home_team_id)
-    fav_opponent = opponent_win_percentages.min_by{|away_team_name, win_percentage| win_percentage}[0]
+    fav_opponent_id = opponent_win_percentages.min_by{|away_team_id, win_percentage| win_percentage}[0]
+    fav_opponent = @teams_mngr.find_team_name(fav_opponent_id)
   end
 
   def rival(team_id)
     opponent_win_percentages = opponent_win_percentages(team_id)
-    rival = opponent_win_percentages.max_by{|away_team_name, win_percentage| win_percentage}[0]
+    rival_id = opponent_win_percentages.max_by{|away_team_id, win_percentage| win_percentage}[0]
+    rival = @teams_mngr.find_team_name(rival_id)
   end
   #### Season
   def winningest_coach(season)
