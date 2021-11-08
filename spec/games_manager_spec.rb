@@ -18,6 +18,20 @@ describe GamesManager do
       expect(@gmngr.games[0]).to be_an_instance_of(Game)
       expect(@gmngr.games.count).to eq(7441)
     end
+    it 'initializes correctly from a single Game' do
+      game = @gmngr.games[0]
+      gmngr1 = GamesManager.new(game)
+      expect(gmngr1).to be_a(GamesManager)
+      expect(gmngr1.games).to be_a(Array)
+      expect(gmngr1.games[0]).to be_a(Game)
+    end
+    it 'initializes correctly from an array of Games' do
+      games = @gmngr.games[0..5]
+      gmngr1 = GamesManager.new(games)
+      expect(gmngr1).to be_a(GamesManager)
+      expect(gmngr1.games).to be_a(Array)
+      expect(gmngr1.games[0]).to be_a(Game)
+    end
   end
 
   describe ' #games_by_season' do
@@ -72,14 +86,41 @@ describe GamesManager do
     end
   end
 
-  it "checks the helper method #" do
-    expect(@gmngr.games_in_season('20122013')).to be_an(Array)
+  describe ' #games_with_home_team_id' do
+    it 'returns a new GamesManager object' do
+      expect(@gmngr.games_with_home_team_id('3')).to be_a(GamesManager)
+    end
+    it 'GamesManager obejct is initialized with correct games array' do
+      games_array = @gmngr.games[0..6]
+      new_gmngr1 = GamesManager.new(games_array)
+      new_gmngr2 = new_gmngr1.games_with_home_team_id('6')
+      team_6_games = [new_gmngr1.games[0], new_gmngr1.games[1], new_gmngr1.games[4]]
+      expect(new_gmngr1.games_with_home_team_id('6').games).to eq(team_6_games)
+    end
+  end
+  describe ' #games_in_season' do
+    it "checks the helper method #" do
+      expect(@gmngr.games_in_season('20122013')).to be_an(Array)
+    end
   end
 
-  it 'returns an array of game ids for each input game' do
-    game1 = @gmngr.games[0]
-    games2 = @gmngr.games[0..2]
-    expect(@gmngr.game_ids_in_games([game1])).to eq(['2012030221'])
-    expect(@gmngr.game_ids_in_games(games2)).to eq(['2012030221','2012030222','2012030223'])
+  describe ' #game_ids_in_games' do
+    it 'returns an array of game ids for each input game' do
+      game1 = @gmngr.games[0]
+      games2 = @gmngr.games[0..2]
+      expect(@gmngr.game_ids_in_games([game1])).to eq(['2012030221'])
+      expect(@gmngr.game_ids_in_games(games2)).to eq(['2012030221','2012030222','2012030223'])
+    end
+  end
+
+  describe ' #game_ids_in_game_' do
+    it 'returns an array of game ids for each input game' do
+      game1 = @gmngr.games[0]
+      games2 = @gmngr.games[0..2]
+      gmngr1 = GamesManager.new(game1)
+      gmngr2 = GamesManager.new(games2)
+      expect(gmngr1.game_ids_in_game_mngr).to eq(['2012030221'])
+      expect(gmngr2.game_ids_in_game_mngr).to eq(['2012030221','2012030222','2012030223'])
+    end
   end
 end

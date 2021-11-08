@@ -7,7 +7,12 @@ class TeamsManager
   attr_reader :teams
 
   def initialize(teams)
-    @teams = teams
+    @teams=[]
+    if teams.class != Array
+      @teams << teams
+    else
+      @teams= teams
+    end
   end
 
   def self.from_csv(teams_data)
