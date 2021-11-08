@@ -25,7 +25,7 @@ class GamesManager
 
 
 
-  def games_by_season
+  def games_by_season(games = @games)
     games_by_season = @games.group_by { |game| game.season }
   end
 
@@ -86,7 +86,7 @@ class GamesManager
     ties.count
   end
 
-  def games_in_season(season)
+  def games_in_season(season, games = @games)
     games_in_season = @games.find_all { |game| game.season == season }
   end
 
