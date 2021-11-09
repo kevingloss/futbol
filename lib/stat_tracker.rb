@@ -92,7 +92,7 @@ class StatTracker
   end
 
   def worst_season(team_id)
-    best_key(win_percentage_by_season(team_id))
+    worst_key(win_percentage_by_season(team_id))
   end
 
   def win_percentage_by_season(team_id)
