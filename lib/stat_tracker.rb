@@ -61,27 +61,27 @@ class StatTracker
   end
 
   def best_offense
-    @teams_mngr.find_team_name(@gt_mngr.best_offense)
+    @teams_mngr.find_team_name(best_key(@gt_mngr.offense))
   end
 
   def worst_offense
-    @teams_mngr.find_team_name(@gt_mngr.worst_offense)
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.offense))
   end
 
   def highest_scoring_visitor
-    @teams_mngr.find_team_name(@gt_mngr.highest_scoring_visitor)
+    @teams_mngr.find_team_name(best_key(@gt_mngr.scoring_visitor))
   end
 
   def lowest_scoring_visitor
-    @teams_mngr.find_team_name(@gt_mngr.lowest_scoring_visitor)
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.scoring_visitor))
   end
 
   def highest_scoring_home_team
-    @teams_mngr.find_team_name(@gt_mngr.highest_scoring_home_team)
+    @teams_mngr.find_team_name(best_key(@gt_mngr.scoring_home_team))
   end
 
   def lowest_scoring_home_team
-    @teams_mngr.find_team_name(@gt_mngr.lowest_scoring_home_team)
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.scoring_home_team))
   end
   #Team Statistics
   def team_info(team_id)
@@ -93,11 +93,11 @@ class StatTracker
   end
 
   def best_season(team_id)
-    win_percentage_by_season(team_id).max_by{|season, win_perc| win_perc}[0]
+    best_key(win_percentage_by_season(team_id))
   end
 
   def worst_season(team_id)
-    win_percentage_by_season(team_id).min_by{|season, win_perc| win_perc}[0]
+    best_key(win_percentage_by_season(team_id))
   end
 
   def win_percentage_by_season(team_id)
@@ -116,13 +116,11 @@ class StatTracker
   end
 
   def most_goals_scored(team_id)
-    goals_by_team_id = @gt_mngr.goals_by_team_id
-    max_goals_by_team = goals_by_team_id[team_id].max
+    @gt_mngr.goals_by_team_id[team_id].max
   end
 
   def fewest_goals_scored(team_id)
-    goals_by_team_id = @gt_mngr.goals_by_team_id
-    min_goals_by_team = goals_by_team_id[team_id].min
+    @gt_mngr.goals_by_team_id[team_id].min
   end
 
   def opponent_win_percentages(home_team_id)
@@ -138,25 +136,21 @@ class StatTracker
   end
 
   def favorite_opponent(home_team_id)
-    opponent_win_percentages = opponent_win_percentages(home_team_id)
-    fav_opponent_id = opponent_win_percentages.min_by{|away_team_id, win_percentage| win_percentage}[0]
-    fav_opponent = @teams_mngr.find_team_name(fav_opponent_id)
+    @teams_mngr.find_team_name(worst_key(opponent_win_percentages(home_team_id)))
   end
 
   def rival(team_id)
-    opponent_win_percentages = opponent_win_percentages(team_id)
-    rival_id = opponent_win_percentages.max_by{|away_team_id, win_percentage| win_percentage}[0]
-    rival = @teams_mngr.find_team_name(rival_id)
+    @teams_mngr.find_team_name(best_key(opponent_win_percentages(team_id)))
   end
   #### Season
   def winningest_coach(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    @gt_mngr.percentage_wins_by_coach(game_ids).max_by { |coach , average_wins| average_wins }[0]
+    best_key(@gt_mngr.percentage_wins_by_coach(game_ids))
   end
 
   def worst_coach(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    @gt_mngr.percentage_wins_by_coach(game_ids).min_by { |coach , average_wins| average_wins }[0]
+    worst_key(@gt_mngr.percentage_wins_by_coach(game_ids))
   end
 
   def game_teams_by_games(games)
@@ -171,25 +165,21 @@ class StatTracker
 
   def most_accurate_team(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    team_id = @gt_mngr.team_accuracy(game_ids).max_by {|team_id, accuracy| accuracy}.first
-    @teams_mngr.find_team_name(team_id)
+    @teams_mngr.find_team_name(best_key(@gt_mngr.team_accuracy(game_ids)))
   end
 
   def least_accurate_team(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    team_id = @gt_mngr.team_accuracy(game_ids).min_by {|team_id, accuracy| accuracy}.first
-    @teams_mngr.find_team_name(team_id)
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.team_accuracy(game_ids)))
   end
 
   def most_tackles(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    team_id = @gt_mngr.tackles(game_ids).max_by {|team_id, tackles| tackles}.first
-    @teams_mngr.find_team_name(team_id)
+    @teams_mngr.find_team_name(best_key(@gt_mngr.tackles(game_ids)))
   end
 
   def fewest_tackles(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    team_id = @gt_mngr.tackles(game_ids).min_by {|team_id, tackles| tackles}.first
-    @teams_mngr.find_team_name(team_id)
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.tackles(game_ids)))
   end
 end
