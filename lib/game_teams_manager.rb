@@ -132,4 +132,11 @@ class GameTeamsManager
       (game_teams.count {|game| game.win?} / game_teams.count.to_f).round(2)
     end
   end
+
+  def gts_of_opposing_team(team_id)
+    gts = @game_teams.select{|gt| gt.team_id == team_id}
+    game_ids = gts.map{|gt|gt.game_id}
+    gts_with_team_and_opponents = game_teams_with_game_ids(game_ids)
+    opponent_gts = gts_with_team_and_opponents.select{|gt|gt.team_id != team_id}
+  end
 end
