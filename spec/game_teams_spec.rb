@@ -10,10 +10,12 @@ describe GameTeam do
     @row = @rows[0]
     @game_team = GameTeam.new(@row)
   end
+  
   describe 'initialize' do
     it 'exists' do
       expect(@game_team).to be_a(GameTeam)
     end
+
     it 'has attributes' do
       expect(@game_team.game_id).to eq('2012030221')
       expect(@game_team.team_id).to eq('3')

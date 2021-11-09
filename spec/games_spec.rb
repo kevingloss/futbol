@@ -9,7 +9,6 @@ RSpec.describe Game do
   before :each do
     @rows = CSV.read('./data/games.csv', headers: true)
     @row = @rows[0]
-
     @game1 = Game.new(@row)
   end
 
@@ -32,6 +31,5 @@ RSpec.describe Game do
     it 'returns total of home and away goals' do
       expect(@game1.total_goals).to eq(5)
     end
-
   end
 end

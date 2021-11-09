@@ -18,6 +18,7 @@ describe GamesManager do
       expect(@gmngr.games[0]).to be_an_instance_of(Game)
       expect(@gmngr.games.count).to eq(7441)
     end
+
     it 'initializes correctly from a single Game' do
       game = @gmngr.games[0]
       gmngr1 = GamesManager.new(game)
@@ -25,6 +26,7 @@ describe GamesManager do
       expect(gmngr1.games).to be_a(Array)
       expect(gmngr1.games[0]).to be_a(Game)
     end
+
     it 'initializes correctly from an array of Games' do
       games = @gmngr.games[0..5]
       gmngr1 = GamesManager.new(games)
@@ -38,9 +40,11 @@ describe GamesManager do
     it 'returns a hash' do
       expect(@gmngr.games_by_season).to be_a(Hash)
     end
+
     it 'returns a values that are arrays' do
       expect(@gmngr.games_by_season.values.all?{|val| val.class == Array}).to eq(true)
     end
+
     it 'returns a hash with an array of games' do
       expect(@gmngr.games_by_season.values.flatten.all?{|game| game.class == Game}).to eq(true)
     end
@@ -49,24 +53,27 @@ describe GamesManager do
   describe ' #count_of_games_by_season' do
     it 'returns a hash with correct count of games per season' do
       expect(@gmngr.count_of_games_by_season).to be_a(Hash)
-      #expect(@gmngr.count_of_games_by_season).to eq({ '20122013' => 6, '20142015' => 15 })
     end
   end
+
   describe ' #total_goals' do
     it 'returns an array' do
       expect(@gmngr.total_goals).to be_a(Array)
     end
+
     it 'returns the correct array' do
       games = @gmngr.games[0..4]
       gmngr2 = GamesManager.new(games)
       expect(gmngr2.total_goals).to eq([5,5,3,5,4])
     end
   end
+
   describe ' #average_goals_per_game' do
     it 'returns the average # of goals per game' do
       expect(@gmngr.average_goals_per_game).to eq(4.22)
     end
   end
+
   describe '#total_games' do
     it 'it returns total games won by visitors' do
       actual = @gmngr.total_games
@@ -74,6 +81,7 @@ describe GamesManager do
       expect(actual).to eq(expected)
     end
   end
+
   describe '#total_visitor wins' do
     it 'it returns total games won by visitors' do
       actual = @gmngr.total_visitor_wins
@@ -81,6 +89,7 @@ describe GamesManager do
       expect(actual).to eq(expected)
     end
   end
+
   describe '#total_home_wins' do
     it 'it returns total games won by visitors' do
       actual = @gmngr.total_home_wins
@@ -88,6 +97,7 @@ describe GamesManager do
       expect(actual).to eq(expected)
     end
   end
+
   describe '#total_ties' do
     it 'it returns total games that have tied' do
       actual = @gmngr.total_ties
@@ -100,6 +110,7 @@ describe GamesManager do
     it 'returns a new GamesManager object' do
       expect(@gmngr.games_with_home_team_id('3')).to be_a(GamesManager)
     end
+
     it 'GamesManager obejct is initialized with correct games array' do
       games_array = @gmngr.games[0..6]
       new_gmngr1 = GamesManager.new(games_array)
@@ -113,6 +124,7 @@ describe GamesManager do
     it 'returns a new GamesManager object' do
       expect(@gmngr.games_with_any_team_id('3')).to be_a(GamesManager)
     end
+    
     it 'GamesManager obejct is initialized with correct games array' do
       games_array = @gmngr.games[0..6]
       new_gmngr1 = GamesManager.new(games_array)
