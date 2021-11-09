@@ -28,10 +28,9 @@ class GameTeamsManager
   end
 
   def team_average_goals(team_games)
-    x = team_games.transform_values do |game_teams|
+    team_games.transform_values do |game_teams|
       average_goals(game_teams).round(4)
     end
-    # require 'pry'; binding.pry
   end
 
   def game_teams_by_team_id(game_teams = @game_teams)
