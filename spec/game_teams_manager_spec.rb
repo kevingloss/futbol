@@ -35,15 +35,9 @@ describe GameTeamsManager do
     end
   end
 
-  describe '#best_offense' do
+  describe '#offense' do
     it 'returns the team id for the highest average goals per game' do
-      expect(@gtmngr.best_offense).to eq("54")
-    end
-  end
-
-  describe '#worst_offense' do
-    it 'returns the team id for the lowest average goals per game' do
-      expect(@gtmngr.worst_offense).to eq("7")
+      expect(@gtmngr.offense).to be_a(Hash)
     end
   end
 
@@ -132,27 +126,15 @@ describe GameTeamsManager do
     end
   end
 
-  describe '#highest_scoring_visitor' do
+  describe '#scoring_visitor' do
     it 'returns the team with the highest average goals as a visitor' do
-      expect(@gtmngr.highest_scoring_visitor).to eq("6")
-    end
-  end
-
-  describe '#lowest_scoring_visitor' do
-    it 'returns the team with the lowest average goals as a visitor' do
-      expect(@gtmngr.lowest_scoring_visitor).to eq("27")
+      expect(@gtmngr.scoring_visitor).to be_a(Hash)
     end
   end
 
   describe '#highest_scoring_home_team' do
     it 'returns the team with the highest average goals as a visitor' do
-      expect(@gtmngr.highest_scoring_home_team).to eq("54")
-    end
-  end
-
-  describe '#lowest_scoring_home_team' do
-    it 'returns the team with the lowest average goals as a visitor' do
-      expect(@gtmngr.lowest_scoring_home_team).to eq("7")
+      expect(@gtmngr.scoring_home_team).to be_a(Hash)
     end
   end
 
