@@ -192,4 +192,29 @@ describe GameTeamsManager do
       expect(@gtmngr.tackles(["2012030221", "2012030222", "2012030311"])).to eq(expected)
     end
   end
+
+  describe ' #gts_of_opposing_team' do
+    it 'returns an array' do
+      expect(@gtmngr.gts_of_opposing_team('3')).to be_a(Array)
+    end
+    it 'returns an array of GameTeams' do
+      expect(@gtmngr.gts_of_opposing_team('3').all?{|gt|gt.class == GameTeam}).to eq(true)
+    end
+    it 'returns correct array of GameTeams' do
+      gts = @gtmngr.game_teams[0..5]
+      gtmngr2 = GameTeamsManager.new(gts)
+      expected = [gts[1], gts[3], gts[4]]
+      expect(gtmngr2.gts_of_opposing_team('3')).to eq(expected)
+    end
+  end
+
+  describe ' #opponent_w_perc' do
+    it 'returns a hash' do
+      expect(@gtmngr.opponent_w_perc('3')).to be_a(Hash)
+    end
+    it 'return a hash with floats as values' do
+      expect(@gtmngr.opponent_w_perc('3').values.flatten.all?{|value| value.class == Float}).to eq(true)
+    end
+  end
+
 end
