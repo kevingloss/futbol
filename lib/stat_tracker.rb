@@ -90,7 +90,15 @@ class StatTracker
   def worst_season(team_id)
     worst_key(win_percentage_by_season(team_id))
   end
-  #helper
+
+  # def win_percentage_by_season(team_id)
+  #   games_by_s = @g_mngr.games_by_season(@g_mngr.games_with_any_team_id(team_id))
+  #   w_perc_by_s = games_by_s.each_with_object({}) do |(season, games), w_perc|
+  #     gts = @gt_mngr.game_teams_with_game_ids(@g_mngr.game_ids_in_games(games))
+  #     w_perc[season] = @gt_mngr.average_win_percentage(team_id, gts)
+  #   end
+  # end
+
   def win_percentage_by_season(team_id)
     games_by_s = @g_mngr.games_by_season(@g_mngr.games_with_any_team_id(team_id))
     w_perc_by_s = games_by_s.each_with_object({}) do |(season, games), w_perc|
