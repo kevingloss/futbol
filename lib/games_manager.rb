@@ -72,10 +72,6 @@ class GamesManager
     home_wins.count
   end
 
-  def home_team_win_percentage
-    homes wins = total_home_wins
-  end
-
   def total_ties
     ties = []
     @games.each do |game|
@@ -98,15 +94,6 @@ class GamesManager
     GamesManager.new(games)
   end
 
-  def games_by_away_team_id
-    games_by_away_team_id = @games.group_by{|game| game.away_team_id}
-    game_mngr_by_away_team_id = Hash.new()
-    games_by_away_team_id.games.each do|away_team_id, games|
-      game_mngr_by_away_team_id[away_team_id] = GamesManager.new(games)
-    end
-    game_mngr_by_away_team_id
-  end
-
   def game_ids_in_games(games)
     game_ids_in_games = games.map { |game| game.game_id }
   end
@@ -117,5 +104,9 @@ class GamesManager
 
   def seasons
     @games.map {|game| game.season}.uniq
+  end
+
+  def game_ids_in_s(season)
+    game_ids_in_games(games_in_season(season))
   end
 end
