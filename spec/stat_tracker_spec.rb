@@ -275,14 +275,14 @@ RSpec.describe StatTracker do
     end
   end
 
-  describe ' #opponent_win_percentage' do
+  describe ' #opponent_w_perc' do
     it 'returns a hash' do
       team_id = @stat_tracker.teams_mngr.teams[5].team_id
-      expect(@stat_tracker.opponent_win_percentages(team_id)).to be_a(Hash)
+      expect(@stat_tracker.opponent_w_perc(team_id)).to be_a(Hash)
     end
     it 'return a hash with floats as values' do
       team_id = @stat_tracker.teams_mngr.teams[5].team_id
-      expect(@stat_tracker.opponent_win_percentages(team_id).values.flatten.all?{|value| value.class == Float}).to eq(true)
+      expect(@stat_tracker.opponent_w_perc(team_id).values.flatten.all?{|value| value.class == Float}).to eq(true)
     end
   end
 
