@@ -59,11 +59,6 @@ class GameTeamsManager
     @game_teams.select{|game_team| game_ids.include?(game_team.game_id)}
   end
 
-  def gt_w_game_ids_mngr(game_ids)
-    game_teams = @game_teams.select{|game_team| game_ids.include?(game_team.game_id)}
-    gt_mngr = GameTeamsManager.new(game_teams)
-  end
-
   def total_games(game_teams)
     game_teams.count
   end
