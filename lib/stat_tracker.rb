@@ -100,15 +100,22 @@ class StatTracker
     win_percentage_by_season(team_id).min_by{|season, win_perc| win_perc}[0]
   end
 
+  # def win_percentage_by_season(team_id)
+  #   games_with_team_by_season = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
+  #   win_percentage_by_season = Hash.new
+  #   games_with_team_by_season.each do |season, games|
+  #     game_teams = game_teams_by_games(games)
+  #     win_percentage = @gt_mngr.average_win_percentage(team_id, game_teams)
+  #     win_percentage_by_season[season] = win_percentage
+  #   end
+  #   win_percentage_by_season
+  # end
+
   def win_percentage_by_season(team_id)
-    games_with_team_by_season = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
-    win_percentage_by_season = Hash.new
-    games_with_team_by_season.each do |season, games|
-      game_teams = game_teams_by_games(games)
-      win_percentage = @gt_mngr.average_win_percentage(team_id, game_teams)
-      win_percentage_by_season[season] = win_percentage
+    games_by_s = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
+    w_perc_by_s = games_by_s.each_with_object({}) do |(season, games), w_perc|
+      w_perc[season] = @gt_mngr.average_win_percentage(team_id, game_teams_by_games(games))
     end
-    win_percentage_by_season
   end
 
   def average_win_percentage(team_id)
