@@ -49,16 +49,6 @@ describe GameTeamsManager do
     end
   end
 
-  describe ' #game_teams_mngr_by_team_id' do
-    it 'creates a hash' do
-      expect(@gtmngr.game_teams_mngr_by_team_id.class).to be(Hash)
-    end
-
-    it 'creates a hash with an GameTeamsManager object for every value' do
-      expect(@gtmngr.game_teams_mngr_by_team_id.values.all?{|value| value.class == GameTeamsManager}).to eq(true)
-    end
-  end
-
   describe '#games_by_team' do
     it 'creates a hash sorted by team id and giving all game_team objects' do
       argument = [@gtmngr.game_teams[0], @gtmngr.game_teams[1]]

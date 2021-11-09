@@ -28,12 +28,9 @@ class GamesManager
   end
 
   def count_of_games_by_season
-    games_by_season = self.games_by_season
-    count_of_games_by_season = Hash.new(0)
-    games_by_season.each do |season, games|
-      count_of_games_by_season[season] = games.length
+    games_by_season.each_with_object({}) do |(season, games), new_hash|
+      new_hash[season] = games.length
     end
-    count_of_games_by_season
   end
 
   def total_goals(games = @games)
@@ -57,27 +54,15 @@ class GamesManager
   end
 
   def total_visitor_wins
-    visitor_wins = []
-    @games.map do |game|
-      visitor_wins.push(game) if game.away_goals > game.home_goals
-    end
-    visitor_wins.count
+    @games.select{ |game| game.away_goals > game.home_goals}.count
   end
 
   def total_home_wins
-    home_wins = []
-    @games.each do |game|
-      home_wins.push(game) if game.away_goals < game.home_goals
-    end
-    home_wins.count
+    @games.select{|game| game.away_goals < game.home_goals}.count
   end
 
   def total_ties
-    ties = []
-    @games.each do |game|
-      ties.push(game) if game.away_goals == game.home_goals
-    end
-    ties.count
+    @games.select{|game| game.away_goals == game.home_goals}.count
   end
 
   def games_in_season(season, games = @games)
