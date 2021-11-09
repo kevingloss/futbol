@@ -208,4 +208,13 @@ describe GameTeamsManager do
     end
   end
 
+  describe ' #opponent_w_perc' do
+    it 'returns a hash' do
+      expect(@gtmngr.opponent_w_perc('3')).to be_a(Hash)
+    end
+    it 'return a hash with floats as values' do
+      expect(@gtmngr.opponent_w_perc('3').values.flatten.all?{|value| value.class == Float}).to eq(true)
+    end
+  end
+
 end

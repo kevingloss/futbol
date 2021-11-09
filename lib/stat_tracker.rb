@@ -110,12 +110,9 @@ class StatTracker
   def fewest_goals_scored(team_id)
     @gt_mngr.goals_by_team_id[team_id].min
   end
-  
+
   def opponent_w_perc(team_id)
-    gts_by_team_id = @gt_mngr.game_teams_by_team_id(@gt_mngr.gts_of_opposing_team(team_id))
-    owp = gts_by_team_id.each_with_object({}) do |(team_id, gts), owp|
-      owp[team_id] = @gt_mngr.average_win_percentage(team_id, gts)
-    end
+    @gt_mngr.opponent_w_perc(team_id)
   end
 
   def favorite_opponent(home_team_id)

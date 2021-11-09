@@ -139,4 +139,11 @@ class GameTeamsManager
     gts_with_team_and_opponents = game_teams_with_game_ids(game_ids)
     opponent_gts = gts_with_team_and_opponents.select{|gt|gt.team_id != team_id}
   end
+
+  def opponent_w_perc(team_id)
+    gts_by_team_id = game_teams_by_team_id(gts_of_opposing_team(team_id))
+    owp = gts_by_team_id.each_with_object({}) do |(team_id, gts), owp|
+      owp[team_id] = average_win_percentage(team_id, gts)
+    end
+  end
 end
