@@ -83,10 +83,6 @@ class StatTracker
     @teams_mngr.team_info(team_id)
   end
 
-  def find_team(team_id)
-    @teams_mngr.teams.find {|team| team.team_id == team_id}
-  end
-
   def best_season(team_id)
     best_key(win_percentage_by_season(team_id))
   end

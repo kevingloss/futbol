@@ -198,8 +198,16 @@ RSpec.describe StatTracker do
 
   #Team Statistics - each method takes a team_id as an argument
   describe '#team_info' do
-    it '#find_team - can find a team by team_id' do
-      expect(@stat_tracker.find_team("15")).to eq(@stat_tracker.teams_mngr.teams[15])
+    it 'returns the team_info hash by team_id' do
+      expect(@stat_tracker.team_info("15")).to be_a(Hash)
+      expected = {
+        "team_id" => "1",
+        "franchise_id" => "23",
+        "team_name" => 'Atlanta United',
+        "abbreviation" => 'ATL',
+        "link" => '/api/v1/teams/1'
+      }
+      expect(@stat_tracker.team_info("1")).to eq(expected)
     end
 
 
