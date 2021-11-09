@@ -46,14 +46,9 @@ class StatTracker
   end
 
   def average_goals_by_season
-    avg_goals_by_season = Hash.new(0)
-    games_by_season = @games_mngr.games.group_by{|game|game.season}
-    games_by_season.each do |season, games|
-      total_goals = games.map{|game| game.away_goals + game.home_goals}.sum
-      avg_goals = (total_goals/games.count.to_f)
-      avg_goals_by_season[season] = avg_goals.round(2)
+    @games_mngr.games_by_season.each_with_object({}) do |(s, games), games_by_s|
+      games_by_s[s] = @games_mngr.average_goals_per_game(games)
     end
-    return avg_goals_by_season
   end
   # League Statistics
   def count_of_teams
