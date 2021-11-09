@@ -40,9 +40,12 @@ class GamesManager
 
   # Average number of goals scored in a game across all seasons including
   # both home and away goals (rounded to the nearest 100th) - float
-  def average_goals_per_game
-    total_goals = @games.map { |game| game.total_goals }
-    avg_goals_per_game = (total_goals.sum.to_f / total_goals.length.to_f).round(2)
+  def total_goals(games = @games)
+    total_goals = games.map { |game| game.total_goals }
+  end
+
+  def average_goals_per_game(games = @games)
+    (total_goals(games).sum.to_f / total_goals(games).length.to_f).round(2)
   end
 
   def highest_total_score

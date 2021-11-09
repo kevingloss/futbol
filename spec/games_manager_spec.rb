@@ -52,6 +52,16 @@ describe GamesManager do
       #expect(@gmngr.count_of_games_by_season).to eq({ '20122013' => 6, '20142015' => 15 })
     end
   end
+  describe ' #total_goals' do
+    it 'returns an array' do
+      expect(@gmngr.total_goals).to be_a(Array)
+    end
+    it 'returns the correct array' do
+      games = @gmngr.games[0..4]
+      gmngr2 = GamesManager.new(games)
+      expect(gmngr2.total_goals).to eq([5,5,3,5,4])
+    end
+  end
   describe ' #average_goals_per_game' do
     it 'returns the average # of goals per game' do
       expect(@gmngr.average_goals_per_game).to eq(4.22)
