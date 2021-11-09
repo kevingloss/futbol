@@ -90,7 +90,7 @@ class StatTracker
   def worst_season(team_id)
     worst_key(win_percentage_by_season(team_id))
   end
-
+  #helper
   def win_percentage_by_season(team_id)
     games_by_s = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
     w_perc_by_s = games_by_s.each_with_object({}) do |(season, games), w_perc|
@@ -109,7 +109,7 @@ class StatTracker
   def fewest_goals_scored(team_id)
     @gt_mngr.goals_by_team_id[team_id].min
   end
-
+  # helper
   def opponent_w_perc(home_team_id)
     games_w_t = @games_mngr.games_with_any_team_id(home_team_id)
     gts_of_games = @gt_mngr.gt_w_game_ids_mngr(games_w_t.game_ids_in_game_mngr)
@@ -137,15 +137,10 @@ class StatTracker
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
     worst_key(@gt_mngr.percentage_wins_by_coach(game_ids))
   end
-
+  #helper
   def game_teams_by_games(games)
     game_ids = @games_mngr.game_ids_in_games(games)
     @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
-  end
-
-  def game_teams_in_season(season)
-    games_in_season = @games_mngr.games_in_season(season)
-    game_teams_in_season = game_teams_by_games(games_in_season)
   end
 
   def most_accurate_team(season)

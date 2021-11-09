@@ -381,24 +381,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.game_teams_by_games(games)).to eq(game_teams2)
     end
   end
-  describe ' #game_teams_in_season' do
-    it 'returns an array of all of the game_teams that are a part of the selected season' do
-      game_path = './data/games_test.csv'
-      team_path = './data/teams.csv'
-      game_teams_path = './data/game_teams_test.csv'
-
-      locations = {
-        games: game_path,
-        teams: team_path,
-        game_teams: game_teams_path
-      }
-
-      @stat_tracker = StatTracker.from_csv(locations)
-      expect(@stat_tracker.game_teams_in_season('20122013')).to be_a(Array)
-      expect(@stat_tracker.game_teams_in_season('20122013').length).to eq(4)
-    end
-  end
-
+  
   describe ' #most_tackles' do
     it 'returns the name of the team with the most tackles in the season' do
       game_path = './data/games_test.csv'
