@@ -198,8 +198,16 @@ RSpec.describe StatTracker do
 
   #Team Statistics - each method takes a team_id as an argument
   describe '#team_info' do
-    it '#find_team - can find a team by team_id' do
-      expect(@stat_tracker.find_team("15")).to eq(@stat_tracker.teams_mngr.teams[15])
+    it 'returns the team_info hash by team_id' do
+      expect(@stat_tracker.team_info("15")).to be_a(Hash)
+      expected = {
+        "team_id" => "1",
+        "franchise_id" => "23",
+        "team_name" => 'Atlanta United',
+        "abbreviation" => 'ATL',
+        "link" => '/api/v1/teams/1'
+      }
+      expect(@stat_tracker.team_info("1")).to eq(expected)
     end
 
 
@@ -363,31 +371,6 @@ RSpec.describe StatTracker do
   describe ' #least_accurate_team' do
     it 'returns the name of the team with the worst ratio of shots to goals for the season' do
       expect(@stat_tracker.least_accurate_team('20122013')).to eq('New York City FC')
-    end
-  end
-
-  describe ' #game_teams_by_games' do
-    it 'returns all game_teams associated with multiple input games' do
-      games = @stat_tracker.games_mngr.games[0..1]
-      game_teams2 = @stat_tracker.gt_mngr.game_teams[0..3]
-      expect(@stat_tracker.game_teams_by_games(games)).to eq(game_teams2)
-    end
-  end
-  describe ' #game_teams_in_season' do
-    it 'returns an array of all of the game_teams that are a part of the selected season' do
-      game_path = './data/games_test.csv'
-      team_path = './data/teams.csv'
-      game_teams_path = './data/game_teams_test.csv'
-
-      locations = {
-        games: game_path,
-        teams: team_path,
-        game_teams: game_teams_path
-      }
-
-      @stat_tracker = StatTracker.from_csv(locations)
-      expect(@stat_tracker.game_teams_in_season('20122013')).to be_a(Array)
-      expect(@stat_tracker.game_teams_in_season('20122013').length).to eq(4)
     end
   end
 
