@@ -23,18 +23,15 @@ class GameTeamsManager
     GameTeamsManager.new(game_teams)
   end
 
-  def best_offense
-    team_average_goals(self.games_by_team).max_by {|team_id, avg_goals| avg_goals.max}.first
-  end
-
-  def worst_offense
-    team_average_goals(self.games_by_team).min_by {|team_id, avg_goals| avg_goals.min}.first
+  def offense
+    team_average_goals(self.games_by_team)
   end
 
   def team_average_goals(team_games)
-    team_games.transform_values do |game_teams|
-      {average_goals: average_goals(game_teams).round(4)}
+    x = team_games.transform_values do |game_teams|
+      average_goals(game_teams).round(4)
     end
+    # require 'pry'; binding.pry
   end
 
   def game_teams_by_team_id(game_teams = @game_teams)
@@ -53,8 +50,6 @@ class GameTeamsManager
   def games_by_team(team_games = @game_teams)
     team_games.group_by {|game_team| game_team.team_id}
   end
-
-
 
   def remove_team(team_id)
     @game_teams.reject!{|game_team| game_team.team_id == team_id}
@@ -82,24 +77,12 @@ class GameTeamsManager
     total_goals(game_teams).to_f/total_games(game_teams)
   end
 
-  def highest_scoring_visitor
-    games = games_by_team(self.away_games)
-    team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
+  def scoring_visitor
+    team_average_goals(games_by_team(self.away_games))
   end
 
-  def lowest_scoring_visitor
-    games = games_by_team(self.away_games)
-    team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
-  end
-
-  def highest_scoring_home_team
-    games = games_by_team(self.home_games)
-    team_average_goals(games).max_by {|team_id, avg_goals| avg_goals.max}.first
-  end
-
-  def lowest_scoring_home_team
-    games = games_by_team(self.home_games)
-    team_average_goals(games).min_by {|team_id, avg_goals| avg_goals.min}.first
+  def scoring_home_team
+    team_average_goals(games_by_team(self.home_games))
   end
 
   def away_games
@@ -109,7 +92,6 @@ class GameTeamsManager
   def home_games
     @game_teams.select {|game_team| game_team.home?}
   end
-
 
   def average_win_percentage(team_id, game_teams = @game_teams)
     team_games = game_teams.select {|game_team| game_team.team_id == team_id}
