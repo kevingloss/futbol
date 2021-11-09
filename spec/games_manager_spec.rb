@@ -107,15 +107,15 @@ describe GamesManager do
   end
 
   describe ' #games_with_any_team_id' do
-    it 'returns a new GamesManager object' do
-      expect(@gmngr.games_with_any_team_id('3')).to be_a(GamesManager)
+    it 'returns a an Array' do
+      expect(@gmngr.games_with_any_team_id('3')).to be_a(Array)
     end
 
     it 'GamesManager obejct is initialized with correct games array' do
       games_array = @gmngr.games[0..6]
       new_gmngr1 = GamesManager.new(games_array)
       new_gmngr2 = new_gmngr1.games_with_any_team_id('6')
-      expect(new_gmngr1.games_with_any_team_id('6').games).to eq(games_array)
+      expect(new_gmngr1.games_with_any_team_id('6')).to eq(games_array)
     end
   end
 
