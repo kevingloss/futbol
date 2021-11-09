@@ -124,32 +124,26 @@ class StatTracker
   end
   #### Season
   def winningest_coach(season)
-    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    best_key(@gt_mngr.percentage_wins_by_coach(game_ids))
+    best_key(@gt_mngr.percentage_wins_by_coach(@games_mngr.game_ids_in_s(season)))
   end
 
   def worst_coach(season)
-    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    worst_key(@gt_mngr.percentage_wins_by_coach(game_ids))
+    worst_key(@gt_mngr.percentage_wins_by_coach(@games_mngr.game_ids_in_s(season)))
   end
 
   def most_accurate_team(season)
-    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    @teams_mngr.find_team_name(best_key(@gt_mngr.team_accuracy(game_ids)))
+    @teams_mngr.find_team_name(best_key(@gt_mngr.team_accuracy(@games_mngr.game_ids_in_s(season))))
   end
 
   def least_accurate_team(season)
-    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    @teams_mngr.find_team_name(worst_key(@gt_mngr.team_accuracy(game_ids)))
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.team_accuracy(@games_mngr.game_ids_in_s(season))))
   end
 
   def most_tackles(season)
-    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    @teams_mngr.find_team_name(best_key(@gt_mngr.tackles(game_ids)))
+    @teams_mngr.find_team_name(best_key(@gt_mngr.tackles(@games_mngr.game_ids_in_s(season))))
   end
 
   def fewest_tackles(season)
-    game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
-    @teams_mngr.find_team_name(worst_key(@gt_mngr.tackles(game_ids)))
+    @teams_mngr.find_team_name(worst_key(@gt_mngr.tackles(@games_mngr.game_ids_in_s(season))))
   end
 end
