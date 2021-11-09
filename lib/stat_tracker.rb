@@ -128,18 +128,22 @@ class StatTracker
   end
 
   def most_accurate_team(season)
-    @t_mngr.find_team_name(best_key(@gt_mngr.team_accuracy(@g_mngr.game_ids_in_s(season))))
+    acc_by_team = @gt_mngr.team_accuracy(@g_mngr.game_ids_in_s(season))
+    @t_mngr.find_team_name(best_key(acc_by_team))
   end
 
   def least_accurate_team(season)
-    @t_mngr.find_team_name(worst_key(@gt_mngr.team_accuracy(@g_mngr.game_ids_in_s(season))))
+    acc_by_team = @gt_mngr.team_accuracy(@g_mngr.game_ids_in_s(season))
+    @t_mngr.find_team_name(worst_key(acc_by_team))
   end
 
   def most_tackles(season)
-    @t_mngr.find_team_name(best_key(@gt_mngr.tackles(@g_mngr.game_ids_in_s(season))))
+    tackles_by_team = @gt_mngr.tackles(@g_mngr.game_ids_in_s(season))
+    @t_mngr.find_team_name(best_key(tackles_by_team))
   end
 
   def fewest_tackles(season)
-    @t_mngr.find_team_name(worst_key(@gt_mngr.tackles(@g_mngr.game_ids_in_s(season))))
+    tackles_by_team = @gt_mngr.tackles(@g_mngr.game_ids_in_s(season))
+    @t_mngr.find_team_name(worst_key(tackles_by_team))
   end
 end
