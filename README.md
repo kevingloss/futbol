@@ -9,7 +9,7 @@
 
 ## Getting Started:
  - Fork/Clone this repo to your computer from GitHub.
-  - (https://github.com/kevingloss/futbol)
+  - [Futbol](https://github.com/kevingloss/futbol)
 
 ## Testing:
  - If you'd like to run through our test suite just use the rspec spec/<file_name> on any of the spec files.
