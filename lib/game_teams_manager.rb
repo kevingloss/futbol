@@ -13,6 +13,7 @@ class GameTeamsManager
     else
       @game_teams = game_teams
     end
+    @game_teams_by_game_id_hash = game_teams_by_game_id
   end
 
   def self.from_csv(game_teams_data)
@@ -55,13 +56,12 @@ class GameTeamsManager
     return self
   end
 
-  def game_teams_with_game_ids(game_ids)
-    @game_teams.select{|game_team| game_ids.include?(game_team.game_id)}
+  def game_teams_by_game_id
+    @game_teams.group_by{|game_team|game_team.game_id}
   end
-
-  def gt_w_game_ids_mngr(game_ids)
-    game_teams = @game_teams.select{|game_team| game_ids.include?(game_team.game_id)}
-    gt_mngr = GameTeamsManager.new(game_teams)
+  
+  def game_teams_with_game_ids(game_ids)
+    game_ids.flat_map{|game_id| @game_teams_by_game_id_hash[game_id]}
   end
 
   def total_games(game_teams)

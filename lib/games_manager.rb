@@ -84,14 +84,8 @@ class GamesManager
     games_in_season = @games.find_all { |game| game.season == season }
   end
 
-  def games_with_home_team_id(home_team_id)
-    games = @games.find_all{|game| game.home_team_id == home_team_id}
-    GamesManager.new(games)
-  end
-
   def games_with_any_team_id(team_id)
-    games = @games.find_all{|game| game.home_team_id == team_id || game.away_team_id == team_id}
-    GamesManager.new(games)
+    @games.find_all{|game| game.home_team_id == team_id || game.away_team_id == team_id}
   end
 
   def game_ids_in_games(games)
