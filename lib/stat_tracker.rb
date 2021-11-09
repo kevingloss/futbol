@@ -46,14 +46,9 @@ class StatTracker
   end
 
   def average_goals_by_season
-    avg_goals_by_season = Hash.new(0)
-    games_by_season = @games_mngr.games.group_by{|game|game.season}
-    games_by_season.each do |season, games|
-      total_goals = games.map{|game| game.away_goals + game.home_goals}.sum
-      avg_goals = (total_goals/games.count.to_f)
-      avg_goals_by_season[season] = avg_goals.round(2)
+    @games_mngr.games_by_season.each_with_object({}) do |(s, games), games_by_s|
+      games_by_s[s] = @games_mngr.average_goals_per_game(games)
     end
-    return avg_goals_by_season
   end
   # League Statistics
   def count_of_teams
@@ -101,14 +96,10 @@ class StatTracker
   end
 
   def win_percentage_by_season(team_id)
-    games_with_team_by_season = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
-    win_percentage_by_season = Hash.new
-    games_with_team_by_season.each do |season, games|
-      game_teams = game_teams_by_games(games)
-      win_percentage = @gt_mngr.average_win_percentage(team_id, game_teams)
-      win_percentage_by_season[season] = win_percentage
+    games_by_s = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
+    w_perc_by_s = games_by_s.each_with_object({}) do |(season, games), w_perc|
+      w_perc[season] = @gt_mngr.average_win_percentage(team_id, game_teams_by_games(games))
     end
-    win_percentage_by_season
   end
 
   def average_win_percentage(team_id)
@@ -125,27 +116,23 @@ class StatTracker
     min_goals_by_team = goals_by_team_id[team_id].min
   end
 
-  def opponent_win_percentages(home_team_id)
-    games_with_team = @games_mngr.games_with_any_team_id(home_team_id)
-    game_teams_of_games = @gt_mngr.game_teams_with_game_ids_mngr(games_with_team.game_ids_in_game_mngr)
-    game_teams_of_opponents = game_teams_of_games.remove_team(home_team_id)
-    game_teams_by_team_id = game_teams_of_opponents.game_teams_mngr_by_team_id
-    opponent_win_percentages = Hash.new()
-    game_teams_by_team_id.each do |team_id, gt_mngr|
-      opponent_win_percentages[team_id] = gt_mngr.average_win_percentage(team_id)
+  def opponent_w_perc(home_team_id)
+    games_w_t = @games_mngr.games_with_any_team_id(home_team_id)
+    gts_of_games = @gt_mngr.gt_w_game_ids_mngr(games_w_t.game_ids_in_game_mngr)
+    gts_of_opp = gts_of_games.remove_team(home_team_id)
+    gts_by_team_id = gts_of_opp.game_teams_mngr_by_team_id
+    owp = gts_by_team_id.each_with_object({}) do |(team_id, gt_mngr), owp|
+      owp[team_id] = gt_mngr.average_win_percentage(team_id)
     end
-    opponent_win_percentages
   end
 
-  def favorite_opponent(home_team_id)
-    opponent_win_percentages = opponent_win_percentages(home_team_id)
-    fav_opponent_id = opponent_win_percentages.min_by{|away_team_id, win_percentage| win_percentage}[0]
+  def favorite_opponent(team_id)
+    fav_opponent_id = opponent_w_perc(team_id).min_by{|a_team_id, w_perc| w_perc}[0]
     fav_opponent = @teams_mngr.find_team_name(fav_opponent_id)
   end
 
   def rival(team_id)
-    opponent_win_percentages = opponent_win_percentages(team_id)
-    rival_id = opponent_win_percentages.max_by{|away_team_id, win_percentage| win_percentage}[0]
+    rival_id = opponent_w_perc(team_id).max_by{|a_team_id, w_perc| w_perc}[0]
     rival = @teams_mngr.find_team_name(rival_id)
   end
   #### Season
