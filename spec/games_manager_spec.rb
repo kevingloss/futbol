@@ -124,7 +124,7 @@ describe GamesManager do
     it 'returns a new GamesManager object' do
       expect(@gmngr.games_with_any_team_id('3')).to be_a(GamesManager)
     end
-    
+
     it 'GamesManager obejct is initialized with correct games array' do
       games_array = @gmngr.games[0..6]
       new_gmngr1 = GamesManager.new(games_array)
@@ -162,6 +162,15 @@ describe GamesManager do
   describe ' #season' do
     it 'returns a list of seasons' do
       expect(@gmngr.seasons).to be_a (Array)
+    end
+  end
+
+  describe ' #game_ids_in_s' do
+    it 'returns an array' do
+      expect(@gmngr.game_ids_in_s('20122013')).to be_a(Array)
+    end
+    it 'returns an array of strings' do
+      expect(@gmngr.game_ids_in_s('20122013').all?{|v|v.class == String}).to eq(true)
     end
   end
 end

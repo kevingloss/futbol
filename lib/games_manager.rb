@@ -105,4 +105,8 @@ class GamesManager
   def seasons
     @games.map {|game| game.season}.uniq
   end
+
+  def game_ids_in_s(season)
+    game_ids_in_games(games_in_season(season))
+  end
 end
