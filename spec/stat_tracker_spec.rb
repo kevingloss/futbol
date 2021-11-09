@@ -374,14 +374,6 @@ RSpec.describe StatTracker do
     end
   end
 
-  describe ' #game_teams_by_games' do
-    it 'returns all game_teams associated with multiple input games' do
-      games = @stat_tracker.games_mngr.games[0..1]
-      game_teams2 = @stat_tracker.gt_mngr.game_teams[0..3]
-      expect(@stat_tracker.game_teams_by_games(games)).to eq(game_teams2)
-    end
-  end
-  
   describe ' #most_tackles' do
     it 'returns the name of the team with the most tackles in the season' do
       game_path = './data/games_test.csv'

@@ -94,7 +94,8 @@ class StatTracker
   def win_percentage_by_season(team_id)
     games_by_s = @games_mngr.games_by_season(@games_mngr.games_with_any_team_id(team_id))
     w_perc_by_s = games_by_s.each_with_object({}) do |(season, games), w_perc|
-      w_perc[season] = @gt_mngr.average_win_percentage(team_id, game_teams_by_games(games))
+      gts = @gt_mngr.game_teams_with_game_ids(@games_mngr.game_ids_in_games(games))
+      w_perc[season] = @gt_mngr.average_win_percentage(team_id, gts)
     end
   end
 
@@ -136,11 +137,6 @@ class StatTracker
   def worst_coach(season)
     game_ids = @games_mngr.game_ids_in_games(@games_mngr.games_in_season(season))
     worst_key(@gt_mngr.percentage_wins_by_coach(game_ids))
-  end
-  #helper
-  def game_teams_by_games(games)
-    game_ids = @games_mngr.game_ids_in_games(games)
-    @gt_mngr.game_teams.find_all{|game_team|game_ids.include?(game_team.game_id)}
   end
 
   def most_accurate_team(season)
