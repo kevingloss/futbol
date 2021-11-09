@@ -4,20 +4,6 @@ SimpleCov.start
 require './lib/stat_tracker'
 
 RSpec.describe StatTracker do
-  # before(:all) do
-  #   game_path = './data/games.csv'
-  #   team_path = './data/teams.csv'
-  #   game_teams_path = './data/game_teams.csv'
-  #
-  #   locations = {
-  #     games: game_path,
-  #     teams: team_path,
-  #     game_teams: game_teams_path
-  #   }
-  #
-  #   @stat_tracker = StatTracker.from_csv(locations)
-  # end
-
   before(:all) do
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
@@ -37,7 +23,6 @@ RSpec.describe StatTracker do
       expect(@stat_tracker).to be_an_instance_of(StatTracker)
     end
 
-
     it 'has attributes' do
       expect(@stat_tracker.games_mngr).to be_an_instance_of(GamesManager)
       expect(@stat_tracker.teams_mngr).to be_an_instance_of(TeamsManager)
@@ -46,13 +31,12 @@ RSpec.describe StatTracker do
   end
 
   describe '::from_csv' do
-      it 'returns a stat_tracker object' do
-        expect(@stat_tracker).to be_an_instance_of(StatTracker)
-      end
+    it 'returns a stat_tracker object' do
+      expect(@stat_tracker).to be_an_instance_of(StatTracker)
+    end
   end
 
   # Game Statistics Methods
-
   describe '#highest_total_score' do
     it 'will find the highest sum of the team scores from all the games' do
       game_path = './data/games_test.csv'
@@ -69,6 +53,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.highest_total_score).to eq(6)
     end
   end
+
   describe '#lowest_total_score' do
     it 'will find the lowest sum of the team scores from all the games' do
       game_path = './data/games_test.csv'
@@ -91,6 +76,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.percentage_visitor_wins).to eq(0.36)
     end
   end
+
   describe '#percentage_home_wins' do
     it 'finds the percentage of home wins' do
       expect(@stat_tracker.percentage_home_wins).to eq(0.44)
@@ -102,6 +88,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.percentage_ties).to eq(0.2)
     end
   end
+
   describe ' #count_of_games_by_season' do
     it 'returns a hash with correct count of games per season' do
       game_path = './data/games_test.csv'
@@ -119,6 +106,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.count_of_games_by_season).to eq({ '20122013' => 6, '20142015' => 15 })
     end
   end
+
   describe ' #average_goals_per_game' do
     it 'returns the average # of goals per game' do
       game_path = './data/games_test.csv'
@@ -135,6 +123,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.average_goals_per_game).to eq(3.86)
     end
   end
+
   describe ' #average_goals_by_season' do
     it 'returns a hash with average # of goals per season' do
       game_path = './data/games_test.csv'
@@ -178,11 +167,11 @@ RSpec.describe StatTracker do
     end
   end
 
-    describe '#lowest_scoring_visitor' do
-      it 'returns the lowest average scoring visitor team name' do
-        expect(@stat_tracker.lowest_scoring_visitor).to eq('San Jose Earthquakes')
-      end
+  describe '#lowest_scoring_visitor' do
+    it 'returns the lowest average scoring visitor team name' do
+      expect(@stat_tracker.lowest_scoring_visitor).to eq('San Jose Earthquakes')
     end
+  end
 
   describe '#highest_scoring_home_team' do
     it 'returns the highest average scoring home team name' do
@@ -210,7 +199,6 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.team_info("1")).to eq(expected)
     end
 
-
     it 'returns a hash with key/values for all team attributes' do
       expected = {
         "team_id" => "15",
@@ -223,24 +211,6 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.team_info("15")).to eq(expected)
     end
   end
-
-  # describe '#team_games_by_season' do
-  #   it 'returns all games played in a season for a given team' do
-  #     game_path = './data/games_test.csv'
-  #     team_path = './data/teams.csv'
-  #     game_teams_path = './data/game_teams_test.csv'
-  #
-  #     locations = {
-  #       games: game_path,
-  #       teams: team_path,
-  #       game_teams: game_teams_path
-  #     }
-  #
-  #     @stat_tracker = StatTracker.from_csv(locations)
-  #     expected = [@stat_tracker.games_mngr.games[18]]
-  #     expect(@stat_tracker.team_games_by_season("8", "20142015")).to eq(expected)
-  #   end
-  # end
 
   describe '#best_season' do
     it 'returns the season with the highest win percentage for a team' do
@@ -287,6 +257,7 @@ RSpec.describe StatTracker do
     it 'returns a hash' do
       expect(@stat_tracker.opponent_w_perc('3')).to be_a(Hash)
     end
+
     it 'return a hash with floats as values' do
       expect(@stat_tracker.opponent_w_perc('3').values.flatten.all?{|value| value.class == Float}).to eq(true)
     end
@@ -307,7 +278,8 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.rival(team_id)).to eq('San Jose Earthquakes')
     end
   end
-  ### Season
+
+  #Season Statistics
   describe '#winningest_coach' do
     it 'Name of the Coach with the best win percentage for the season' do
       game_path = './data/games_test.csv'
@@ -325,6 +297,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.winningest_coach('20122013')).to eq("Claude Julien")
     end
   end
+
   describe '#worst_coach' do
     it 'Name of the Coach with the worst win percentage for the season' do
       game_path = './data/games_test.csv'
@@ -342,23 +315,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.worst_coach('20122013')).to eq("John Tortorella")
     end
   end
-  # describe ' #accuracy' do
-  #   it 'accepts an array of game_teams and returns a single accuracy score' do
-  #     game_path = './data/games_test.csv'
-  #     team_path = './data/teams.csv'
-  #     game_teams_path = './data/game_teams_test.csv'
-  #
-  #     locations = {
-  #       games: game_path,
-  #       teams: team_path,
-  #       game_teams: game_teams_path
-  #     }
-  #
-  #     @stat_tracker = StatTracker.from_csv(locations)
-  #     game_teams1 = @stat_tracker.gt_mngr.game_teams[0..4]
-  #     expect(@stat_tracker.accuracy(game_teams1)).to eq(13.0/43.0)
-  #   end
-  # end
+
   describe ' #most_accurate_team' do
 
     it 'returns the name of the team with the best ratio of shots to goals for the season' do
@@ -366,6 +323,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.most_accurate_team("20142015")).to eq("Toronto FC")
     end
   end
+
   describe ' #least_accurate_team' do
     it 'returns the name of the team with the worst ratio of shots to goals for the season' do
       expect(@stat_tracker.least_accurate_team('20122013')).to eq('New York City FC')
@@ -388,6 +346,7 @@ RSpec.describe StatTracker do
       expect(@stat_tracker.most_tackles('20122013')).to eq('FC Dallas')
     end
   end
+
   describe '  #fewest_tackles' do
     it 'returns the name of the team with the fewest tackles in the season' do
       game_path = './data/games_test.csv'

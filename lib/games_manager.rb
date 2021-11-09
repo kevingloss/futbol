@@ -23,8 +23,6 @@ class GamesManager
     GamesManager.new(games)
   end
 
-
-
   def games_by_season(games = @games)
     games_by_season = @games.group_by { |game| game.season }
   end
@@ -38,8 +36,6 @@ class GamesManager
     count_of_games_by_season
   end
 
-  # Average number of goals scored in a game across all seasons including
-  # both home and away goals (rounded to the nearest 100th) - float
   def total_goals(games = @games)
     total_goals = games.map { |game| game.total_goals }
   end
@@ -49,11 +45,11 @@ class GamesManager
   end
 
   def highest_total_score
-    @games.map { |game| game.total_goals }.max
+    @games.map {|game| game.total_goals}.max
   end
 
   def lowest_total_score
-    @games.map { |game| game.total_goals }.min
+    @games.map {|game| game.total_goals}.min
   end
 
   def total_games
@@ -62,7 +58,7 @@ class GamesManager
 
   def total_visitor_wins
     visitor_wins = []
-    @games.each do |game|
+    @games.map do |game|
       visitor_wins.push(game) if game.away_goals > game.home_goals
     end
     visitor_wins.count
@@ -78,7 +74,6 @@ class GamesManager
 
   def home_team_win_percentage
     homes wins = total_home_wins
-
   end
 
   def total_ties

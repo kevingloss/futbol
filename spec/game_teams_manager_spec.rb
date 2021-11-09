@@ -26,6 +26,7 @@ describe GameTeamsManager do
       expect(gtmngr1.game_teams).to be_a(Array)
       expect(gtmngr1.game_teams[0]).to be_a(GameTeam)
     end
+
     it 'initializes correctly from an array of GameTeams' do
       game_teams = @gtmngr.game_teams[0..5]
       gtmngr1 = GameTeamsManager.new(game_teams)
@@ -52,6 +53,7 @@ describe GameTeamsManager do
     it 'creates a hash' do
       expect(@gtmngr.game_teams_mngr_by_team_id.class).to be(Hash)
     end
+
     it 'creates a hash with an GameTeamsManager object for every value' do
       expect(@gtmngr.game_teams_mngr_by_team_id.values.all?{|value| value.class == GameTeamsManager}).to eq(true)
     end
@@ -70,6 +72,7 @@ describe GameTeamsManager do
       @gt_mngr2 = @gtmngr.gt_w_game_ids_mngr(@game_ids)
       expect(@gt_mngr2.remove_team('3')).to be_a(GameTeamsManager)
     end
+
     it 'removes game_teams that meet given Id from game_team_manager' do
       @game_ids = ['2012030221', '2012030222']
       @gt_mngr2 = @gtmngr.gt_w_game_ids_mngr(@game_ids)
@@ -87,6 +90,7 @@ describe GameTeamsManager do
     it 'returns an array' do
       expect(@game_teams).to be_a(Array)
     end
+
     it 'returns an array of GameTeams objects' do
       expect(@game_teams.all?{|game_team| game_team.class == GameTeam}).to be(true)
     end
@@ -101,6 +105,7 @@ describe GameTeamsManager do
     it 'returns a GameTeamsManager object' do
       expect(@gt_mngr2).to be_a(GameTeamsManager)
     end
+
     it 'returns a GameTeamsManager object with an array of GameTeams objects' do
       expect(@gt_mngr2.game_teams.all?{|game_team| game_team.class == GameTeam}).to be(true)
     end
@@ -160,9 +165,11 @@ describe GameTeamsManager do
     it 'returns a hash' do
       expect(@gtmngr.goals_by_team_id).to be_a(Hash)
     end
+
     it 'returns a hash with arrays as values' do
       expect(@gtmngr.goals_by_team_id.values.all?{|value| value.class == Array}).to eq(true)
     end
+
     it 'returns a hash with an array of integers' do
       expect(@gtmngr.goals_by_team_id.values.flatten.all?{|value| value.class == Integer}).to eq(true)
     end
