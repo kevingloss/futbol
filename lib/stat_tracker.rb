@@ -111,16 +111,12 @@ class StatTracker
     @gt_mngr.goals_by_team_id[team_id].min
   end
 
-  def opponent_w_perc(team_id)
-    @gt_mngr.opponent_w_perc(team_id)
-  end
-
   def favorite_opponent(home_team_id)
-    @t_mngr.find_team_name(worst_key(opponent_w_perc(home_team_id)))
+    @t_mngr.find_team_name(worst_key(@gt_mngr.opponent_w_perc(home_team_id)))
   end
 
   def rival(team_id)
-    @t_mngr.find_team_name(best_key(opponent_w_perc(team_id)))
+    @t_mngr.find_team_name(best_key(@gt_mngr.opponent_w_perc(team_id)))
   end
   #### Season
   def winningest_coach(season)

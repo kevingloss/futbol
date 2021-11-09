@@ -253,16 +253,6 @@ RSpec.describe StatTracker do
     end
   end
 
-  describe ' #opponent_w_perc' do
-    it 'returns a hash' do
-      expect(@stat_tracker.opponent_w_perc('3')).to be_a(Hash)
-    end
-
-    it 'return a hash with floats as values' do
-      expect(@stat_tracker.opponent_w_perc('3').values.flatten.all?{|value| value.class == Float}).to eq(true)
-    end
-  end
-
   describe ' #favorite_opponent' do
     it 'returns the name of the opponent that has the lowest win percentage against the given team.' do
       team_id = @stat_tracker.t_mngr.teams[5].team_id

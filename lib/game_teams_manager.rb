@@ -38,15 +38,6 @@ class GameTeamsManager
     game_teams.group_by {|game_team| game_team.team_id}
   end
 
-  def game_teams_mngr_by_team_id
-    game_teams = @game_teams.group_by {|game_team| game_team.team_id}
-    gt_mngr_by_teams = Hash.new()
-    game_teams.each do |team_id, game_teams|
-      gt_mngr_by_teams[team_id] = GameTeamsManager.new(game_teams)
-    end
-    gt_mngr_by_teams
-  end
-
   def games_by_team(team_games = @game_teams)
     team_games.group_by {|game_team| game_team.team_id}
   end
@@ -59,7 +50,7 @@ class GameTeamsManager
   def game_teams_by_game_id
     @game_teams.group_by{|game_team|game_team.game_id}
   end
-  
+
   def game_teams_with_game_ids(game_ids)
     game_ids.flat_map{|game_id| @game_teams_by_game_id_hash[game_id]}
   end
