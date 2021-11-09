@@ -13,7 +13,6 @@ class GamesManager
     else
       @games = games
     end
-    #@game_game_ids_hash = make_game_id_hash(@games)
   end
 
   def self.from_csv(games_data)
@@ -23,10 +22,6 @@ class GamesManager
     end
     GamesManager.new(games)
   end
-
-  # def make_game_id_hash(games)
-  #   games.each_with_object({}){|game, hash| hash[game] = game.game_id}
-  # end
 
   def games_by_season(games = @games)
     games_by_season = @games.group_by { |game| game.season }
@@ -96,10 +91,6 @@ class GamesManager
   def game_ids_in_games(games)
     game_ids_in_games = games.map { |game| game.game_id }
   end
-
-  # def game_ids_in_games(games)
-  #   games.map{|game| @game_game_ids_hash[game]}
-  # end
 
   def game_ids_in_game_mngr
     game_ids_in_games = @games.map { |game| game.game_id }
