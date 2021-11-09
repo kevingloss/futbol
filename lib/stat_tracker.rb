@@ -5,7 +5,7 @@ require_relative './statistics'
 
 class StatTracker
   include Statistics
-  attr_accessor :games_mngr, :teams_mngr, :gt_mngr
+  attr_accessor :g_mngr, :t_mngr, :gt_mngr
 
   def initialize(locations)
     @g_mngr = GamesManager.from_csv(locations[:games])
@@ -38,11 +38,11 @@ class StatTracker
   end
 
   def count_of_games_by_season
-    @games_mngr.count_of_games_by_season
+    @g_mngr.count_of_games_by_season
   end
 
   def average_goals_per_game
-    @games_mngr.average_goals_per_game
+    @g_mngr.average_goals_per_game
   end
 
   def average_goals_by_season

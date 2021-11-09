@@ -24,8 +24,8 @@ RSpec.describe StatTracker do
     end
 
     it 'has attributes' do
-      expect(@stat_tracker.games_mngr).to be_an_instance_of(GamesManager)
-      expect(@stat_tracker.teams_mngr).to be_an_instance_of(TeamsManager)
+      expect(@stat_tracker.g_mngr).to be_an_instance_of(GamesManager)
+      expect(@stat_tracker.t_mngr).to be_an_instance_of(TeamsManager)
       expect(@stat_tracker.gt_mngr).to be_an_instance_of(GameTeamsManager)
     end
   end
@@ -145,7 +145,7 @@ RSpec.describe StatTracker do
   # League Stat
   describe '#count_of_teams' do
     it 'counts the total number of teams' do
-      expect(@stat_tracker.count_of_teams).to eq(@stat_tracker.teams_mngr.teams.count)
+      expect(@stat_tracker.count_of_teams).to eq(@stat_tracker.t_mngr.teams.count)
     end
   end
 
@@ -265,7 +265,7 @@ RSpec.describe StatTracker do
 
   describe ' #favorite_opponent' do
     it 'returns the name of the opponent that has the lowest win percentage against the given team.' do
-      team_id = @stat_tracker.teams_mngr.teams[5].team_id
+      team_id = @stat_tracker.t_mngr.teams[5].team_id
       expect(@stat_tracker.favorite_opponent(team_id)).to be_a(String)
       expect(@stat_tracker.favorite_opponent(team_id)).to eq('Montreal Impact')
     end
@@ -273,7 +273,7 @@ RSpec.describe StatTracker do
 
   describe ' #rival' do
     it 'returns the name of the opponent that has the highest win percentage against the given team.' do
-      team_id = @stat_tracker.teams_mngr.teams[5].team_id
+      team_id = @stat_tracker.t_mngr.teams[5].team_id
       expect(@stat_tracker.rival(team_id)).to be_a(String)
       expect(@stat_tracker.rival(team_id)).to eq('San Jose Earthquakes')
     end
